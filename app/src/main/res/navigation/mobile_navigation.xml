@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_classes">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.a2340project1.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_classes"
+        android:name="com.example.a2340project1.ui.classes.ClassesFragment"
+        android:label="@string/title_class"
+        tools:layout="@layout/fragment_classes" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.a2340project1.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_agenda"
+        android:name="com.example.a2340project1.ui.agenda.AgendaFragment"
+        android:label="@string/title_agenda"
+        tools:layout="@layout/fragment_agenda" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.a2340project1.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_todo"
+        android:name="com.example.a2340project1.ui.ToDo.ToDoFragment"
+        android:label="@string/title_todo"
+        tools:layout="@layout/fragment_to_do" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.a2340project1.ui.home;
+package com.example.a2340project1.ui.classes;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.a2340project1.databinding.FragmentHomeBinding;
+import com.example.a2340project1.databinding.FragmentClassesBinding;
 
-public class HomeFragment extends Fragment {
+public class ClassesFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentClassesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        ClassesViewModel classesViewModel =
+                new ViewModelProvider(this).get(ClassesViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentClassesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textClasses;
+        classesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

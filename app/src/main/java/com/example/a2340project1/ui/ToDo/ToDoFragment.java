@@ -1,4 +1,4 @@
-package com.example.a2340project1.ui.dashboard;
+package com.example.a2340project1.ui.ToDo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.a2340project1.databinding.FragmentDashboardBinding;
+import com.example.a2340project1.databinding.FragmentToDoBinding;
 
-public class DashboardFragment extends Fragment {
+public class ToDoFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentToDoBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        ToDoViewModel toDoViewModel =
+                new ViewModelProvider(this).get(ToDoViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentToDoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textTodo;
+        toDoViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
