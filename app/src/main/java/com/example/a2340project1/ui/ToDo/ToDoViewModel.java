@@ -10,7 +10,7 @@ public class ToDoViewModel extends ViewModel {
 
     public ToDoViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("This is to do fragment");
     }
 
     public LiveData<String> getText() {

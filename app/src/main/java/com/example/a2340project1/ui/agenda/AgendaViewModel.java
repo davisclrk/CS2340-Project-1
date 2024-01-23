@@ -10,7 +10,7 @@ public class AgendaViewModel extends ViewModel {
 
     public AgendaViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("This is agenda fragment");
     }
 
     public LiveData<String> getText() {
