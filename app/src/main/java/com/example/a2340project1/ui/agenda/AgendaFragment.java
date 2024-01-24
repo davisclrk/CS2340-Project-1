@@ -25,9 +25,6 @@ public class AgendaFragment extends Fragment {
 
         binding = FragmentAgendaBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        final TextView textView = binding.textAgenda;
-        agendaViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
