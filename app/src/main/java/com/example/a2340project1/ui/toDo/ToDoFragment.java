@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -66,7 +67,7 @@ public class ToDoFragment extends Fragment {
         View toDoView = getLayoutInflater().inflate(R.layout.todo_row, null, false);
 
         //EditText editText = (EditText) toDoView.findViewById(R.id.todo_edittext);
-        ImageView imageClose = (ImageView) toDoView.findViewById(R.id.todo_image_remove);
+        ImageButton imageClose = (ImageButton) toDoView.findViewById(R.id.todo_image_remove);
 
         imageClose.setOnClickListener(new View.OnClickListener() {
             @Override
