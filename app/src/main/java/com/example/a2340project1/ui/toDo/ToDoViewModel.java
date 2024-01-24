@@ -1,4 +1,4 @@
-package com.example.a2340project1.ui.ToDo;
+package com.example.a2340project1.ui.toDo;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -3,4 +3,5 @@
     <string name="title_class">Classes</string>
     <string name="title_agenda">Agenda</string>
     <string name="title_todo">To Do</string>
+    <string name="lists_title">To-Do Lists</string>
 </resources>
