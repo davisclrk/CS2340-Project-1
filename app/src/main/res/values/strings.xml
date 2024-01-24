@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">2340Project1</string>
     <string name="title_class">Classes</string>
+    <string name="class_name">Course Name</string>
+    <string name="class_instructor">Instructor</string>
+    <string name="class_time">Date and Time</string>
     <string name="title_agenda">Agenda</string>
     <string name="title_todo">To Do</string>
+    <string name="lists_title">To-Do Lists</string>
 </resources>
