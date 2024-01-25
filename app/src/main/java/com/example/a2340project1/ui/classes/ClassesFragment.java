@@ -2,9 +2,11 @@ package com.example.a2340project1.ui.classes;
 
 import android.media.Image;
 import android.os.Bundle;
+import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,11 +53,21 @@ public class ClassesFragment extends Fragment {
     }
 
     private void addClass(ViewGroup viewGroup) {
-        View classView = getLayoutInflater().inflate(R.layout.class_grid, null, false);
+        View classView = getLayoutInflater().inflate(R.layout.class_grid, null, false); // what is this doin? idk
 
         ImageButton editClass = (ImageButton) classView.findViewById(R.id.edit_class);
-        // add functionality for edit class later. make sure to make the text uneditable when the edit button has not been pressed
-        // how would i know when to close the edit buton though? how would we "stop editing" the class details?
+        EditText className = (EditText) classView.findViewById(R.id.class_name);
+        EditText classInstructor = (EditText) classView.findViewById(R.id.class_instructor);
+        EditText classTime = (EditText) classView.findViewById(R.id.class_time);
+        // functionality for class edit button
+        editClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleEditText(className);
+                toggleEditText(classInstructor);
+                toggleEditText(classTime);
+            }
+        });
 
         ImageButton deleteClass = (ImageButton) classView.findViewById(R.id.delete_class);
         // functionality for class delete button
@@ -65,8 +77,16 @@ public class ClassesFragment extends Fragment {
                 viewGroup.removeView(classView);
             }
         });
-
         viewGroup.addView(classView);
+    }
+
+    private void toggleEditText(EditText text) {
+        if (text.getKeyListener() != null) {
+            text.setTag(text.getKeyListener());
+            text.setKeyListener(null);
+        } else {
+            text.setKeyListener((KeyListener) text.getTag());
+        }
     }
 
 
