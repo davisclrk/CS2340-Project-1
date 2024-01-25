@@ -23,10 +23,17 @@ import com.example.a2340project1.databinding.FragmentToDoBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ToDoFragment extends Fragment {
 
     private FragmentToDoBinding binding;
     private LinearLayout layoutList;
+
+    //private static ArrayList<View> toDoListData = new ArrayList<>();
+    //private static int viewCount = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,10 +66,6 @@ public class ToDoFragment extends Fragment {
         binding = null;
     }
 
-    private void removeView(ViewGroup viewGroup, View view) {
-        viewGroup.removeView(view);
-    }
-
     private void addToDoView(ViewGroup viewGroup) {
         View toDoView = getLayoutInflater().inflate(R.layout.todo_row, null, false);
 
@@ -72,12 +75,24 @@ public class ToDoFragment extends Fragment {
         imageClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeView(viewGroup, toDoView);
+                viewGroup.removeView(toDoView);
             }
         });
 
         viewGroup.addView(toDoView);
+        //toDoListData.add(toDoView);
+        //viewCount++;
     }
+/*
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.put(toDoList);
+    }
+*/
+
+
+
 
 
 
