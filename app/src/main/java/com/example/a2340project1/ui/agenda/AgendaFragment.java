@@ -28,6 +28,8 @@ public class AgendaFragment extends Fragment {
         return root;
     }
 
+    // NOTE: there should be 2 filters at the top, one for showing exam/assignment/both and one for sorting by date/class
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -36,8 +38,7 @@ public class AgendaFragment extends Fragment {
             public void onClick(View view) {
                 Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                // edit the snackbar later ofc
-                // create a grid from this in which the grid has a layout for all of the stuff in the class
+                // create a popup where u choose whether to create an assignment or exam
             }
         });
     }
