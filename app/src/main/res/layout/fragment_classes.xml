@@ -29,6 +29,5 @@
         app:backgroundTint="#C137DF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-    <!--    theres also stuff called recycler view and gridlayout-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
