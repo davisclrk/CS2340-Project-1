@@ -5,7 +5,8 @@
     android:id="@+id/classGrid"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CA3B3B">
+    android:background="@drawable/round_grey" >
+<!--    android:layout_margin="100dp" but it doesnt really seem to work lol-->
 
     <EditText
         android:id="@+id/class_name"
