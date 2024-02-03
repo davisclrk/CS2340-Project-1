@@ -7,4 +7,6 @@
     <string name="title_agenda">Agenda</string>
     <string name="title_todo">To Do</string>
     <string name="lists_title">To-Do Lists</string>
+    <string name="new_to_do_list">New To-Do List</string>
+    <string name="write_here">Write here...</string>
 </resources>

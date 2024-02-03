@@ -19,13 +19,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.a2340project1.R;
 import com.example.a2340project1.databinding.FragmentClassesBinding;
+import com.example.a2340project1.ui.DynamicElementHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ClassesFragment extends Fragment {
 
     private FragmentClassesBinding binding;
 
-    private LinearLayout layout;
+    private LinearLayout layoutList;
+    private static final DynamicElementHandler dynamicElementHandler = new DynamicElementHandler();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,7 +37,13 @@ public class ClassesFragment extends Fragment {
         binding = FragmentClassesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        layout = root.findViewById(R.id.classes_layout);
+        layoutList = root.findViewById(R.id.classes_layout);
+
+        int temp = dynamicElementHandler.getViewCount();
+        dynamicElementHandler.setViewCount(0);
+        for (int i = 0; i < temp; i++) {
+            dynamicElementHandler.addView(layoutList, getLayoutInflater(), R.layout.class_grid, R.id.delete_class);
+        }
 
         return root;
     }
@@ -47,11 +55,12 @@ public class ClassesFragment extends Fragment {
         classAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addClass(layout);
+                dynamicElementHandler.addView(layoutList, getLayoutInflater(), R.layout.class_grid, R.id.delete_class);
             }
         });
     }
 
+    /*
     private void addClass(ViewGroup viewGroup) {
         View classView = getLayoutInflater().inflate(R.layout.class_grid, null, false); // what is this doin? idk
 
@@ -78,6 +87,17 @@ public class ClassesFragment extends Fragment {
             }
         });
         viewGroup.addView(classView);
+    }
+    */
+
+
+    private void toggleEditText(EditText text) {
+        if (text.getKeyListener() != null) {
+            text.setTag(text.getKeyListener());
+            text.setKeyListener(null);
+        } else {
+            text.setKeyListener((KeyListener) text.getTag());
+        }
     }
 
     private void toggleEditText(EditText text) {
