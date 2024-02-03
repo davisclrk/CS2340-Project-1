@@ -43,6 +43,8 @@ public class AgendaFragment extends Fragment {
         });
     }
 
+    // how do i store the xml thing with the actual class/obejct itself?
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
