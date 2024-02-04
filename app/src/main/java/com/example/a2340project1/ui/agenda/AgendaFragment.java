@@ -31,6 +31,7 @@ import java.util.Objects;
 public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     private FragmentAgendaBinding binding;
+    private final AgendaElementHandler ELEMENT_HANDLER = new AgendaElementHandler();
 
     private int month, day, year;
 
@@ -55,66 +56,14 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         super.onViewCreated(view, savedInstanceState);
 
         FloatingActionButton agendaAddButton = view.findViewById(R.id.add_agenda_button);
-        Context context = this.getContext();
-        LayoutInflater inflater = getLayoutInflater();
-        agendaAddButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               AlertDialog.Builder builder = new AlertDialog.Builder(context);
-               // set the custom layout
-               View customLayout = inflater.inflate(R.layout.agenda_popup_dialog, null);
-               builder.setView(customLayout);
-               AlertDialog dialog = builder.create();
-
-               Button addAssignment = customLayout.findViewById(R.id.add_assignment);
-               addAssignment.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       AlertDialog.Builder assignmentBuilder = new AlertDialog.Builder(context);
-                       assignmentBuilder.setTitle("Add Assignment");
-                       View assignmentLayout = inflater.inflate(R.layout.assignment_grid, null);
-                       assignmentBuilder.setView(assignmentLayout);
-                       AlertDialog assignmentDialog = assignmentBuilder.create();
-                       assignmentDialog.show();
-
-
-                       Button datePicker = assignmentLayout.findViewById(R.id.assignment_date_picker);
-
-                       datePicker.setOnClickListener(new View.OnClickListener() {
-                           @Override
-                           public void onClick(View v) {
-                               showDatePickerDialog();
-                           }
-                       });
-
-//                       dialog.dismiss(); should dismiss once the assignment is actually created in case the user wants to return
-                   }
-               });
-
-               Button addExam = customLayout.findViewById(R.id.add_exam);
-               addExam.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       // actual functionality not implemented
-                       dialog.dismiss();
-                   }
-               });
-
-               dialog.show();
-           }
+        agendaAddButton.setOnClickListener(v -> {
+            ELEMENT_HANDLER.agendaAddDialog(layoutList, getLayoutInflater(), this.getContext(),
+                    this);
+//           dialog.dismiss(); should dismiss once the assignment is actually created in case the user wants to return
         });
     }
 
-    private void showDatePickerDialog() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this.requireContext(),  // or maybe change to this.getContext() if its not working
-                this,
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        );
-        datePickerDialog.show();
-    }
+
 
     @Override
     public void onDestroyView() {

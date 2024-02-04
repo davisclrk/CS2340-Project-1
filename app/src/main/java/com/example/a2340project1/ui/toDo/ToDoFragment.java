@@ -36,7 +36,7 @@ public class ToDoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button toDoAddButton = view.findViewById(R.id.add_todolist_button);
-        toDoAddButton.setOnClickListener(view1 -> addView());
+        toDoAddButton.setOnClickListener(view1 -> addTask());
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ToDoFragment extends Fragment {
         binding = null;
     }
 
-    public void addView() {
+    public void addTask() {
         EditText inputTask = binding.getRoot().findViewById(R.id.add_task_text);
 
         if (inputTask.getText().toString().equals("")) {

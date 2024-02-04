@@ -17,13 +17,6 @@ import android.widget.EditText;
  * @version 1.0
  */
 public class DynamicElementHandler {
-
-    /**
-     * Creates a new dynamic element handler with a view count of 0.
-     */
-    public DynamicElementHandler() {
-    }
-
     /**
      * Dynamically adds a view from a resource to a destination layout in a fragment. View count
      * can be used to keep track of added views for repopulating fragments.
