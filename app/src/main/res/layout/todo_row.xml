@@ -9,42 +9,25 @@
 
     <EditText
         android:id="@+id/todo_edittext"
-        android:padding="10dp"
-        android:layout_width="331dp"
-        android:layout_height="45dp"
+        android:layout_width="296dp"
+        android:layout_height="48dp"
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:background="@drawable/round_grey"
-        android:hint="@string/new_to_do_list"
-        android:textColorHint="#DDAAAAAA"
+        android:padding="10dp"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/todo_image_remove"
+        android:id="@+id/delete_task"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_margin="10dp"
-        android:layout_marginStart="8dp"
-        android:src="@android:drawable/ic_delete"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:src="@android:drawable/ic_menu_edit"
         app:layout_constraintStart_toEndOf="@+id/todo_edittext"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/edit_todo_multiline"
-        android:layout_width="330dp"
-        android:layout_height="241dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/round_grey"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="@string/write_here"
-        android:inputType="textMultiLine"
-        android:padding="15dp"
-        android:textColorHint="#DDAAAAAA"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/todo_edittext" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
