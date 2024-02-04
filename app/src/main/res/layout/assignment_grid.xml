@@ -3,45 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/assignment_grid">
+    android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/add_assignment_name"
+        android:id="@+id/assignment_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/add_class_name"
-        android:inputType="text"
-        android:textColorHint="#DDAAAAAA"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assignment_class" />
 
     <EditText
-        android:id="@+id/add_assignment_class"
+        android:id="@+id/assignment_class"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/add_class_name"
-        android:inputType="text"
-        android:textColorHint="#DDAAAAAA"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="156dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TimePicker
-        android:id="@+id/assignment_time_picker"
+    <EditText
+        android:id="@+id/assignment_deadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:timePickerMode="spinner"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="259dp" />
-
-    <Button
-        android:id="@+id/assignment_date_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pick date"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/assignment_class"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
