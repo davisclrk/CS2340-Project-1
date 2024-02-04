@@ -7,6 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+/**
+ * Handles adding, removing, and editing dynamically added views. Adding is
+ * implemented through a method called in the destination fragment. Editing and
+ * deleting are implemented through a dialog pop-up method called in the destination
+ * fragment.
+ *
+ * @author aidannguyen
+ * @version 1.0
+ */
 public class DynamicElementHandler {
 
     /**

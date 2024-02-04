@@ -52,7 +52,7 @@ public class ToDoFragment extends Fragment {
             return;
         }
 
-        ToDoElement task = new ToDoElement(R.layout.todo_row, R.id.delete_task, inputTask.getText().toString());
+        ToDoElement task = new ToDoElement(R.layout.todo_row, inputTask.getText().toString());
         ELEMENT_HANDLER.addView(layoutList, getLayoutInflater(), task, this.getContext());
         inputTask.getText().clear();
     }

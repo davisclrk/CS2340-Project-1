@@ -3,7 +3,12 @@ package com.example.a2340project1.ui.classes;
 import com.example.a2340project1.ui.DynamicElement;
 
 import java.util.ArrayList;
-
+/**
+ * Stores data about classes dynamically added to the classes fragment.
+ *
+ * @author aidannguyen
+ * @version 1.0
+ */
 public class ClassElement extends DynamicElement {
     private String className;
     private String classDate;//make this formatted to date

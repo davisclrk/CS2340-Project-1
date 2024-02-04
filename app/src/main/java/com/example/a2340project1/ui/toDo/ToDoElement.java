@@ -1,18 +1,17 @@
 package com.example.a2340project1.ui.toDo;
 
 import com.example.a2340project1.ui.DynamicElement;
-
+/**
+ * Stores data about tasks dynamically added to the to-do fragment.
+ *
+ * @author aidannguyen
+ * @version 1.0
+ */
 public class ToDoElement extends DynamicElement {
-    private int closeButtonId;
     private String taskText;
-    public ToDoElement(int mainResource, int closeButtonId, String taskText) {
+    public ToDoElement(int mainResource, String taskText) {
         super(mainResource);
-        this.closeButtonId = closeButtonId;
         this.taskText = taskText;
-    }
-
-    public int getCloseButtonId() {
-        return closeButtonId;
     }
 
     public String getTaskText() {
