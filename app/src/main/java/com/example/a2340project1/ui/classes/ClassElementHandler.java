@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,7 +14,6 @@ import android.widget.TimePicker;
 import com.example.a2340project1.R;
 import com.example.a2340project1.ui.DynamicElement;
 import com.example.a2340project1.ui.DynamicElementHandler;
-import com.example.a2340project1.ui.toDo.ToDoElement;
 
 public class ClassElementHandler extends DynamicElementHandler {
     /**
@@ -70,11 +68,11 @@ public class ClassElementHandler extends DynamicElementHandler {
 
             String nameText, dateText, instructorText;
 
-            if (!emptyAddDialog(classNameAdd, classInstructorAdd)) {
+            if (nonEmptyAddDialog(classNameAdd, classInstructorAdd)) {
                 nameText = classNameAdd.getText().toString();
                 dateText = getClassDateFromDialog(dayCheck, timePicker);
                 instructorText = classInstructorAdd.getText().toString();
-                ClassElement newClass = new ClassElement(R.layout.class_grid, R.id.delete_class,
+                ClassElement newClass = new ClassElement(R.layout.class_grid,
                         nameText, dateText, instructorText);
 
                 addView(viewGroup, inflater, newClass, context);
@@ -114,10 +112,14 @@ public class ClassElementHandler extends DynamicElementHandler {
             EditText classDate = view.findViewById(R.id.class_time);
             EditText classInstructor = view.findViewById(R.id.class_instructor);
 
+            //set editing window to have same inputs as the selected view
+            classNameEdit.setText(className.getText());
+            classInstructorEdit.setText(classInstructor.getText());
+
             String nameText, dateText, instructorText;
 
             //add empty check for date/time
-            if (!emptyAddDialog(classNameEdit, classInstructorEdit)) {
+            if (nonEmptyAddDialog(classNameEdit, classInstructorEdit)) {
                 nameText = classNameEdit.getText().toString();
                 dateText = getClassDateFromDialog(dayCheckEdit, timePickerEdit);
                 instructorText = classInstructorEdit.getText().toString();
@@ -145,7 +147,8 @@ public class ClassElementHandler extends DynamicElementHandler {
         String time;
         String hour = (timePicker.getHour() > 12) ?
                 String.valueOf(timePicker.getHour() - 12) : String.valueOf(timePicker.getHour());
-        String minute = String.valueOf(timePicker.getMinute());
+        String minute = (timePicker.getMinute() < 10) ?
+                "0" + timePicker.getMinute() : String.valueOf(timePicker.getMinute());
         String AMPM = (timePicker.getHour() < 12) ? "AM" : "PM";
         time = hour + ":" + minute + " " + AMPM;
         int count = radioGroup.getChildCount();
@@ -166,13 +169,13 @@ public class ClassElementHandler extends DynamicElementHandler {
      * @param inputs the text boxes where inputs are received
      * @return boolean representing whether any of the inputs are empty
      */
-    private boolean emptyAddDialog(EditText... inputs) {
+    private boolean nonEmptyAddDialog(EditText... inputs) {
         boolean isEmpty = false;
         for (EditText input : inputs) {
             if (input.getText().toString().equals("")) {
                 isEmpty = true;
             }
         }
-        return isEmpty;
+        return !isEmpty;
     }
 }
