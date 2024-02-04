@@ -38,7 +38,6 @@ public class ToDoElementHandler extends DynamicElementHandler {
         });
 
         viewGroup.addView(addedView);
-        viewCount++;
     }
 
     /**

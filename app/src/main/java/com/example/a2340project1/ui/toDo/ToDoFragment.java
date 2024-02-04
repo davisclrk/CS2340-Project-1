@@ -30,14 +30,6 @@ public class ToDoFragment extends Fragment {
         //destination for added elements
         layoutList = root.findViewById(R.id.todo_linearlayout);
 
-        //might switch to viewmodel
-        int temp = ELEMENT_HANDLER.getViewCount();
-        ELEMENT_HANDLER.setViewCount(0);
-        for (int i = 0; i < temp; i++) {
-            ToDoElement task = new ToDoElement(R.layout.todo_row, R.id.delete_task, null);
-            ELEMENT_HANDLER.addView(layoutList, getLayoutInflater(), task, this.getContext());
-        }
-
         return root;
     }
 

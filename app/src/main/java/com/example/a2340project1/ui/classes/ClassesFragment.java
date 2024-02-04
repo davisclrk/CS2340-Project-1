@@ -31,15 +31,6 @@ public class ClassesFragment extends Fragment {
 
         layoutList = root.findViewById(R.id.classes_layout);
 
-        //deal with this later
-        int temp = ELEMENT_HANDLER.getViewCount();
-        ELEMENT_HANDLER.setViewCount(0);
-        for (int i = 0; i < temp; i++) {
-            ClassElement newClass = new ClassElement(R.layout.class_grid,
-                    "", "", "");
-            ELEMENT_HANDLER.addView(layoutList, getLayoutInflater(), newClass);
-        }
-
         return root;
     }
 
