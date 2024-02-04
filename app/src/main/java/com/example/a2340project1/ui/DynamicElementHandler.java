@@ -2,24 +2,17 @@ package com.example.a2340project1.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
-
-import com.example.a2340project1.R;
 
 public class DynamicElementHandler {
-    //maybe remove
-    protected int viewCount;
 
     /**
      * Creates a new dynamic element handler with a view count of 0.
      */
     public DynamicElementHandler() {
-        viewCount = 0;
     }
 
     /**
@@ -35,7 +28,6 @@ public class DynamicElementHandler {
         View addedView = inflater.inflate(element.getMainResource(), null, false);
 
         viewGroup.addView(addedView);
-        viewCount++;
     }
 
     /**
@@ -77,23 +69,5 @@ public class DynamicElementHandler {
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    /**
-     * Returns the view count.
-     *
-     * @return the number of views
-     */
-    public int getViewCount() {
-        return viewCount;
-    }
-
-    /**
-     * Sets a new view count.
-     *
-     * @param newViewCount the new number of views
-     */
-    public void setViewCount(int newViewCount) {
-        viewCount = newViewCount;
     }
 }
