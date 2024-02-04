@@ -4,16 +4,19 @@ import com.example.a2340project1.ui.DynamicElement;
 
 public class AgendaElement extends DynamicElement {
     private String agendaName;
-    private String agendaDate;
-    private String agendaTime;
+    private int agendaMonth, agendaDay, agendaYear;
+    private int agendaHour, agendaMinute;
     private String agendaClass;
 
     public AgendaElement(int mainResource, String agendaName,
-                        String agendaDate, String agendaTime, String agendaClass) {
+                        int agendaMonth, int agendaDay, int agendaYear, int agendaHour, int agendaMinute, String agendaClass) {
         super(mainResource);
         this.agendaName = agendaName;
-        this.agendaDate = agendaDate;
-        this.agendaTime = agendaTime;
+        this.agendaMonth = agendaMonth;
+        this.agendaDay = agendaDay;
+        this.agendaYear = agendaYear;
+        this.agendaHour = agendaHour;
+        this.agendaMinute = agendaMinute;
         this.agendaClass = agendaClass;
     }
 
@@ -26,27 +29,51 @@ public class AgendaElement extends DynamicElement {
         this.agendaName = agendaName;
     }
 
-    public String getAgendaDate() {
-        return agendaDate;
-    }
-
-    public void setAgendaDate(String agendaDate) {
-        this.agendaDate = agendaDate;
-    }
-
-    public String getAgendaTime() {
-        return agendaTime;
-    }
-
-    public void setAgendaTime(String agendaTime) {
-        this.agendaTime = agendaTime;
-    }
-
     public String getAgendaClass() {
         return agendaClass;
     }
 
     public void setAgendaClass(String agendaClass) {
         this.agendaClass = agendaClass;
+    }
+
+    public int getAgendaMonth() {
+        return agendaMonth;
+    }
+
+    public void setAgendaMonth(int agendaMonth) {
+        this.agendaMonth = agendaMonth;
+    }
+
+    public int getAgendaDay() {
+        return agendaDay;
+    }
+
+    public void setAgendaDay(int agendaDay) {
+        this.agendaDay = agendaDay;
+    }
+
+    public int getAgendaYear() {
+        return agendaYear;
+    }
+
+    public void setAgendaYear(int agendaYear) {
+        this.agendaYear = agendaYear;
+    }
+
+    public int getAgendaHour() {
+        return agendaHour;
+    }
+
+    public void setAgendaHour(int agendaHour) {
+        this.agendaHour = agendaHour;
+    }
+
+    public int getAgendaMinute() {
+        return agendaMinute;
+    }
+
+    public void setAgendaMinute(int agendaMinute) {
+        this.agendaMinute = agendaMinute;
     }
 }
