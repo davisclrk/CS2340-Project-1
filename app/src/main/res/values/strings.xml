@@ -13,4 +13,8 @@
     <string name="new_task">New Task…</string>
     <string name="add_class_name">Class name…</string>
     <string name="add_instructor_name">Instructor name…</string>
+    <string name="add_assignment">Add Assignment</string>
+    <string name="add_exam">Add Exam</string>
+    <string name="add_assignment_name">Assignment title...</string>
+    <string name="add_assignment_class">Course Name...</string>
 </resources>
