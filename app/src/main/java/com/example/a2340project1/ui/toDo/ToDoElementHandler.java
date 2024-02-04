@@ -1,6 +1,5 @@
 package com.example.a2340project1.ui.toDo;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,14 @@ import android.widget.ImageButton;
 
 import com.example.a2340project1.R;
 import com.example.a2340project1.ui.DynamicElementHandler;
-
+/**
+ * Handles adding, removing, and editing dynamically added tasks to the
+ * to-do fragment. Implementations of these actions are the same as in
+ * DynamicElementHandler.
+ *
+ * @author aidannguyen
+ * @version 1.0
+ */
 public class ToDoElementHandler extends DynamicElementHandler {
     /**
      * Dynamically adds a view from a resource to a destination layout in a fragment. View count
@@ -28,7 +34,7 @@ public class ToDoElementHandler extends DynamicElementHandler {
 
         EditText taskText = addedView.findViewById(R.id.todo_edittext);
 
-        ImageButton imageEdit = addedView.findViewById(task.getCloseButtonId());
+        ImageButton imageEdit = addedView.findViewById(R.id.edit_task);
 
         taskText.setText(task.getTaskText());
         taskText.setEnabled(false);
@@ -38,7 +44,6 @@ public class ToDoElementHandler extends DynamicElementHandler {
         });
 
         viewGroup.addView(addedView);
-        viewCount++;
     }
 
     /**
