@@ -1,19 +1,24 @@
 package com.example.a2340project1.ui.classes;
 
-import android.media.Image;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -27,7 +32,7 @@ public class ClassesFragment extends Fragment {
     private FragmentClassesBinding binding;
 
     private LinearLayout layoutList;
-    private static final DynamicElementHandler dynamicElementHandler = new DynamicElementHandler();
+    private static final ClassElementHandler ELEMENT_HANDLER = new ClassElementHandler();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,10 +44,13 @@ public class ClassesFragment extends Fragment {
 
         layoutList = root.findViewById(R.id.classes_layout);
 
-        int temp = dynamicElementHandler.getViewCount();
-        dynamicElementHandler.setViewCount(0);
+        //deal with this later
+        int temp = ELEMENT_HANDLER.getViewCount();
+        ELEMENT_HANDLER.setViewCount(0);
         for (int i = 0; i < temp; i++) {
-            dynamicElementHandler.addView(layoutList, getLayoutInflater(), R.layout.class_grid, R.id.delete_class);
+            ClassElement newClass = new ClassElement(R.layout.class_grid, R.id.delete_class,
+                    "", "", "");
+            ELEMENT_HANDLER.addView(layoutList, getLayoutInflater(), newClass);
         }
 
         return root;
@@ -51,55 +59,10 @@ public class ClassesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        FloatingActionButton classAddButton = view.findViewById(R.id.add_classes_button);
-        classAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dynamicElementHandler.addView(layoutList, getLayoutInflater(), R.layout.class_grid, R.id.delete_class);
-            }
-        });
+        Button classAddButton = view.findViewById(R.id.add_classes_button);
+        classAddButton.setOnClickListener(view1 -> ELEMENT_HANDLER.classAddDialog(layoutList,
+                getLayoutInflater(), this.getContext()));
     }
-
-    /*
-    private void addClass(ViewGroup viewGroup) {
-        View classView = getLayoutInflater().inflate(R.layout.class_grid, null, false); // what is this doin? idk
-
-        ImageButton editClass = (ImageButton) classView.findViewById(R.id.edit_class);
-        EditText className = (EditText) classView.findViewById(R.id.class_name);
-        EditText classInstructor = (EditText) classView.findViewById(R.id.class_instructor);
-        EditText classTime = (EditText) classView.findViewById(R.id.class_time);
-        // functionality for class edit button
-        editClass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleEditText(className);
-                toggleEditText(classInstructor);
-                toggleEditText(classTime);
-            }
-        });
-
-        ImageButton deleteClass = (ImageButton) classView.findViewById(R.id.delete_class);
-        // functionality for class delete button
-        deleteClass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewGroup.removeView(classView);
-            }
-        });
-        viewGroup.addView(classView);
-    }
-    */
-
-
-    private void toggleEditText(EditText text) {
-        if (text.getKeyListener() != null) {
-            text.setTag(text.getKeyListener());
-            text.setKeyListener(null);
-        } else {
-            text.setKeyListener((KeyListener) text.getTag());
-        }
-    }
-
 
     @Override
     public void onDestroyView() {
