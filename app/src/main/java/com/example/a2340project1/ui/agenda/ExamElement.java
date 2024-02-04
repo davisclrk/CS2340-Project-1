@@ -1,6 +1,6 @@
 package com.example.a2340project1.ui.agenda;
 
-public class Exams extends AcademicTasks {
+public class ExamElement {// extends AgendaElement {
     private String location;
 
 }

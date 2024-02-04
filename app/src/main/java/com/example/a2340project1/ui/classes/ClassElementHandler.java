@@ -72,7 +72,7 @@ public class ClassElementHandler extends DynamicElementHandler {
             EditText classNameAdd = customLayout.findViewById(R.id.add_class_name);
             EditText classInstructorAdd = customLayout.findViewById(R.id.add_class_instructor);
             RadioGroup dayCheck = customLayout.findViewById(R.id.class_days);
-            TimePicker timePicker = customLayout.findViewById(R.id.timePicker);
+            TimePicker timePicker = customLayout.findViewById(R.id.class_time_picker);
 
             String nameText, dateText, instructorText;
             ArrayList<Integer> daysChecked;
@@ -136,7 +136,7 @@ public class ClassElementHandler extends DynamicElementHandler {
         EditText classNameEdit = customLayout.findViewById(R.id.add_class_name);
         EditText classInstructorEdit = customLayout.findViewById(R.id.add_class_instructor);
         RadioGroup dayCheckEdit = customLayout.findViewById(R.id.class_days);
-        TimePicker timePickerEdit = customLayout.findViewById(R.id.timePicker);
+        TimePicker timePickerEdit = customLayout.findViewById(R.id.class_time_picker);
 
         EditText className = view.findViewById(R.id.class_name);
         EditText classDate = view.findViewById(R.id.class_time);
