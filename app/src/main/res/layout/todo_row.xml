@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/delete_task"
+        android:id="@+id/edit_task"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_margin="10dp"

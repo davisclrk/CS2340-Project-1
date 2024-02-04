@@ -16,7 +16,14 @@ import com.example.a2340project1.ui.DynamicElement;
 import com.example.a2340project1.ui.DynamicElementHandler;
 
 import java.util.ArrayList;
-
+/**
+ * Handles adding, removing, and editing dynamically added classes to the
+ * classes fragment. Implementations of these actions are the same as in
+ * DynamicElementHandler.
+ *
+ * @author aidannguyen
+ * @version 1.0
+ */
 public class ClassElementHandler extends DynamicElementHandler {
     /**
      * A version of the superclass method of the same name. Adds a class element to the
