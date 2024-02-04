@@ -1,5 +1,7 @@
 package com.example.a2340project1.ui.agenda;
 
+import androidx.annotation.NonNull;
+
 import com.example.a2340project1.ui.DynamicElement;
 
 public class AgendaElement extends DynamicElement {

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyboardShortcutGroup;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,9 +34,7 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
     private FragmentAgendaBinding binding;
     private final AgendaElementHandler ELEMENT_HANDLER = new AgendaElementHandler();
 
-    private int month, day, year;
-
-    private LinearLayout layoutList;
+    private LinearLayout layoutList; // even changing to public doesnt fix the code in agendaelementhandler
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,11 +58,8 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         agendaAddButton.setOnClickListener(v -> {
             ELEMENT_HANDLER.agendaAddDialog(layoutList, getLayoutInflater(), this.getContext(),
                     this);
-//           dialog.dismiss(); should dismiss once the assignment is actually created in case the user wants to return
         });
     }
-
-
 
     @Override
     public void onDestroyView() {
@@ -73,9 +69,6 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = month + "/" + dayOfMonth + "/" + year;
-//        this.month = month;
-//        this.day = dayOfMonth;
-//        this.year = year;
+        ELEMENT_HANDLER.agendaSetDate(year, month+1, dayOfMonth);
     }
 }

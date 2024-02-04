@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/exam_grid">
+
+    <EditText
+        android:id="@+id/add_exam_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/exam_title"
+        android:inputType="text"
+        android:textColorHint="#DDAAAAAA"
+        tools:layout_editor_absoluteX="106dp"
+        tools:layout_editor_absoluteY="39dp" />
+
+    <EditText
+        android:id="@+id/add_exam_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/exam_course"
+        android:inputType="text"
+        android:textColorHint="#DDAAAAAA"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="112dp" />
+
+    <TimePicker
+        android:id="@+id/exam_time_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:timePickerMode="spinner"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="259dp" />
+
+    <Button
+        android:id="@+id/exam_date_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_date" />
+
+    <EditText
+        android:id="@+id/add_exam_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/exam_location"
+        android:inputType="text"
+        android:textColorHint="#DDAAAAAA"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="186dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

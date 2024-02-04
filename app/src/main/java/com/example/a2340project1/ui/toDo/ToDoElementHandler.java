@@ -54,7 +54,7 @@ public class ToDoElementHandler extends DynamicElementHandler {
      */
     public void taskEditDialog(String title, ViewGroup viewGroup, LayoutInflater inflater,
                                View view, Context context) {
-        super.showEditDialog(title, viewGroup, inflater, view, context, R.layout.todo_dialogue,
+        super.showEditDialog(title, viewGroup, inflater, view, context, R.layout.todo_dialog,
                 R.id.dialogue_edit_text, R.id.todo_edittext);
     }
 }
