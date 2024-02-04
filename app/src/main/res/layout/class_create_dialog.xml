@@ -6,25 +6,27 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <TimePicker
             android:id="@+id/timePicker"
             android:layout_width="219dp"
             android:layout_height="83dp"
-            android:layout_marginEnd="52dp"
+            android:layout_marginEnd="44dp"
             android:timePickerMode="spinner"
             app:layout_constraintBottom_toTopOf="@+id/add_class_name"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/class_days"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.952" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <EditText
             android:id="@+id/add_class_name"
             android:layout_width="154dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="112dp"
+            android:layout_marginEnd="64dp"
             android:layout_marginBottom="4dp"
             android:ems="10"
             android:hint="@string/add_class_name"
@@ -37,8 +39,8 @@
             android:id="@+id/add_class_instructor"
             android:layout_width="194dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="72dp"
-            android:layout_marginBottom="184dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
             android:ems="10"
             android:hint="@string/add_instructor_name"
             android:inputType="text"
@@ -50,7 +52,6 @@
             android:id="@+id/class_days"
             android:layout_width="64dp"
             android:layout_height="227dp"
-            android:background="@drawable/border_box"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/add_class_name"
             app:layout_constraintStart_toStartOf="parent"

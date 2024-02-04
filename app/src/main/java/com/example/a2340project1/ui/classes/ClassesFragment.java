@@ -1,22 +1,11 @@
 package com.example.a2340project1.ui.classes;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,8 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.a2340project1.R;
 import com.example.a2340project1.databinding.FragmentClassesBinding;
-import com.example.a2340project1.ui.DynamicElementHandler;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ClassesFragment extends Fragment {
 
@@ -48,7 +35,7 @@ public class ClassesFragment extends Fragment {
         int temp = ELEMENT_HANDLER.getViewCount();
         ELEMENT_HANDLER.setViewCount(0);
         for (int i = 0; i < temp; i++) {
-            ClassElement newClass = new ClassElement(R.layout.class_grid, R.id.delete_class,
+            ClassElement newClass = new ClassElement(R.layout.class_grid,
                     "", "", "");
             ELEMENT_HANDLER.addView(layoutList, getLayoutInflater(), newClass);
         }
