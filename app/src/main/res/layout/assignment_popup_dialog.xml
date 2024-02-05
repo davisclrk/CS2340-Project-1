@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/assignment_grid"
-    android:theme="@style/DialogBoxTheme">
-
 
     <EditText
+        app:backgroundTint="@color/textbox_select_color"
+        android:textCursorDrawable="@drawable/text_cursor"
         android:id="@+id/add_assignment_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="45dp"
+
         android:ems="10"
         android:hint="@string/assignment_class"
         android:inputType="text"
@@ -40,7 +41,9 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <TimePicker
+        android:theme="@style/TimePickerTheme"
         android:id="@+id/assignment_time_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,6 +57,7 @@
 
 
     <Button
+        android:background="@drawable/button_shape"
         android:id="@+id/assignment_date_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

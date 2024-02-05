@@ -22,6 +22,7 @@
         android:id="@+id/assignment_title"
         android:layout_width="271dp"
         android:layout_height="56dp"
+
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
