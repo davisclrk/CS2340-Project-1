@@ -3,6 +3,7 @@ package com.example.a2340project1.ui.agenda;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,11 +89,15 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
             AssignmentElement newAssignment = new AssignmentElement(R.layout.assignment_grid,
                     assignmentName.getText().toString(), assignmentClass.getText().toString(), assignmentDeadline, displayMonth, displayDay, displayYear,
-                    assignmentTime.getHour(), assignmentTime.getMinute()
-                    );
-            AgendaElements.add(newAssignment); // remember to use the hashmap implementation too
+                    assignmentTime.getHour(), assignmentTime.getMinute());
 
-            assignmentAddView(viewGroup, inflater, newAssignment, context);
+
+            int index = calculateViewPosition(newAssignment.getAgendaMonth(), newAssignment.getAgendaDay(), newAssignment.getAgendaYear(), newAssignment.getAgendaHour(), newAssignment.getAgendaMinute());
+            // im using the same vars twice so should prob instantiate acutal vars above and then use them here
+
+            AgendaElements.add(index, newAssignment);
+
+            assignmentAddView(viewGroup, inflater, newAssignment, context, index);
             agendaDialog.dismiss();
         });
         assignmentBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -190,7 +195,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param addedAssignment
      * @param context
      */
-    private void assignmentAddView(ViewGroup viewGroup, LayoutInflater inflater, AssignmentElement addedAssignment, Context context) {
+    private void assignmentAddView(ViewGroup viewGroup, LayoutInflater inflater, AssignmentElement addedAssignment, Context context, int index) {
         View addedView = inflater.inflate(addedAssignment.getMainResource(), null, false);
         EditText assignmentName = addedView.findViewById(R.id.assignment_title);
         EditText assignmentClass = addedView.findViewById(R.id.assignment_class);
@@ -203,9 +208,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
         assignmentDeadline.setEnabled(false);
         assignmentDeadline.setText(addedAssignment.getAgendaDate());
 
-        // still need to add editing functionality
-
-        viewGroup.addView(addedView);
+        viewGroup.addView(addedView, index);
     }
 
 
@@ -284,10 +287,43 @@ public class AgendaElementHandler extends DynamicElementHandler {
         datePickerDialog.show();
     }
 
+    /**
+     * docs
+     *
+     * @param year
+     * @param month
+     * @param day
+     */
     public void agendaSetDate(int year, int month, int day) {
         displayDay = day;
         displayMonth = month;
         displayYear = year;
     }
 
+    /**
+     * sort by class
+     *
+     */
+    private void agendaClassSort() {
+        // i guess to restore the original list i can just remove all entries from linear layout and then repopulate it with the arraylist
+    }
+
+    /**
+     * finds the view position in the linear layout based on date and time
+     *
+     */
+    private int calculateViewPosition(int month, int day, int year, int hour, int minute) {
+        int index = 0;
+
+        while (index < AgendaElements.size() && year > AgendaElements.get(index).getAgendaYear()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month > AgendaElements.get(index).getAgendaMonth()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month == AgendaElements.get(index).getAgendaMonth() &&
+                day > AgendaElements.get(index).getAgendaDay()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month == AgendaElements.get(index).getAgendaMonth() &&
+                day == AgendaElements.get(index).getAgendaDay() && hour > AgendaElements.get(index).getAgendaHour()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month == AgendaElements.get(index).getAgendaMonth() &&
+                day == AgendaElements.get(index).getAgendaDay() && hour == AgendaElements.get(index).getAgendaHour() && minute > AgendaElements.get(index).getAgendaMinute()) index++;
+
+        return index;
+    }
 }

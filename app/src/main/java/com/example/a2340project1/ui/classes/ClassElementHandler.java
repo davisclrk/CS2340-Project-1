@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 public class ClassElementHandler extends DynamicElementHandler {
 
-    private final ArrayList<String> classNames = new ArrayList<>();
+    private static final ArrayList<String> classNames = new ArrayList<>();
     /**
      * A version of the superclass method of the same name. Adds a class element to the
      * context.
@@ -224,7 +224,7 @@ public class ClassElementHandler extends DynamicElementHandler {
         return !isEmpty;
     }
 
-    public ArrayList<String> getClassNames() {
+    public static ArrayList<String> getClassNames() {
         return classNames;
     }
 }
