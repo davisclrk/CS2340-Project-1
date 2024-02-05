@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TimePicker;
 
 import com.example.a2340project1.R;
 import com.example.a2340project1.ui.DynamicElementHandler;
+import com.example.a2340project1.ui.classes.ClassElement;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -97,6 +100,67 @@ public class AgendaElementHandler extends DynamicElementHandler {
         AlertDialog assignmentDialog = assignmentBuilder.create();
         assignmentDialog.show();
     }
+
+    /**
+     * A version of the superclass showEditDialog method, but with extra variables for the
+     * different input fields.
+     *
+     * @see DynamicElementHandler#showEditDialog(String, ViewGroup, LayoutInflater, View, Context, int, int, int)
+     *//*
+    public void assignmentEditDialog(ViewGroup viewGroup, LayoutInflater inflater,
+                                View view, ClassElement editedClass, Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Edit Class");
+
+        // set the custom layout
+        View customLayout = inflater.inflate(R.layout.assignment_popup_dialog, null);
+        builder.setView(customLayout);
+
+        EditText assignmentNameEdit = customLayout.findViewById(R.id.add_assignment_name);
+        EditText assignmentClassEdit = customLayout.findViewById(R.id.add_assignment_class);
+        EditText assignmentDate = customLayout.findViewById(R.id.add_assignment_date);
+        TimePicker timePickerEdit = customLayout.findViewById(R.id.assignment_time_picker);
+
+        EditText className = view.findViewById(R.id.class_name);
+        EditText classDate = view.findViewById(R.id.class_time);
+        EditText classInstructor = view.findViewById(R.id.class_instructor);
+
+        //set editing window to have same inputs as the selected view
+        assignmentNameEdit.setText(className.getText());
+        assignmentClassEdit.setText(classInstructor.getText());
+
+        ArrayList<Integer> daysChecked = editedClass.getDaysChecked();
+        int count = daysChecked.size();
+        for (int i = 0; i < count; i++) {
+            ((CheckBox) dayCheckEdit.getChildAt(daysChecked.get(i))).setChecked(true);
+        }
+
+        timePickerEdit.setHour(editedClass.getHour());
+        timePickerEdit.setMinute(editedClass.getMinute());
+
+        // add a button
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            String nameText, dateText, instructorText;
+
+            //add empty check for date/time
+            if (nonEmptyAddDialog(assignmentNameEdit, assignmentClassEdit)) {
+                nameText = assignmentNameEdit.getText().toString();
+                dateText = getClassDateFromDialog(dayCheckEdit, timePickerEdit);
+                instructorText = assignmentClassEdit.getText().toString();
+
+                className.setText(nameText);
+                classDate.setText(dateText);
+                classInstructor.setText(instructorText);
+            }
+
+        });
+        builder.setNeutralButton("Delete", (dialog, which) -> viewGroup.removeView(view));
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }*/
 
     /**
      *
