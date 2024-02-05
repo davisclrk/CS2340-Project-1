@@ -6,10 +6,23 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <ImageButton
+        android:id="@+id/assignment_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/assignment_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.846"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
     <EditText
         android:id="@+id/assignment_title"
-        android:layout_width="387dp"
-        android:layout_height="60dp"
+        android:layout_width="271dp"
+        android:layout_height="56dp"
+
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

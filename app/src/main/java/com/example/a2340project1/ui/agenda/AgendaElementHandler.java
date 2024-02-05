@@ -322,7 +322,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
         View addedView = inflater.inflate(addedExam.getMainResource(), null, false);
         EditText examName = addedView.findViewById(R.id.exam_title);
         EditText examClass = addedView.findViewById(R.id.exam_class);
-        EditText examDate = addedView.findViewById(R.id.exam_datetime);
+        EditText examDate = addedView.findViewById(R.id.exam_time);
         EditText examLocation = addedView.findViewById(R.id.exam_location); // i just realized all these var names are the same
 
         examName.setEnabled(false);
