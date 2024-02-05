@@ -59,21 +59,24 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         examOrAssignmentSort = root.findViewById(R.id.exam_assignment_sort);
 
         examOrAssignmentSortList.add("Sort by all");
-        examOrAssignmentSortList.add("Sort by exam");
         examOrAssignmentSortList.add("Sort by assignment");
+        examOrAssignmentSortList.add("Sort by exam");
 
         dateOrClassSortList.add("Sort by date");
         dateOrClassSortList.add("Sort by class");
+
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this.getContext(),
                 android.R.layout.simple_spinner_dropdown_item, dateOrClassSortList);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateOrClassSort.setAdapter(adapter1);
+        dateOrClassSort.setSelection(0);
 
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this.getContext(),
                 android.R.layout.simple_spinner_dropdown_item, examOrAssignmentSortList);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         examOrAssignmentSort.setAdapter(adapter2);
+        examOrAssignmentSort.setSelection(0);
 
 
         return root;
