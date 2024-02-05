@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 public class ClassElementHandler extends DynamicElementHandler {
 
-    private final ArrayList<String> classNames = new ArrayList<>();
+    private static ArrayList<String> classNames = new ArrayList<>();
     /**
      * A version of the superclass method of the same name. Adds a class element to the
      * context.
@@ -81,7 +81,7 @@ public class ClassElementHandler extends DynamicElementHandler {
             ArrayList<Integer> daysChecked;
             int hour, minute;
 
-            if (nonEmptyAddDialog(classNameAdd, classInstructorAdd)) {
+            if (nonEmptyDialog(classNameAdd, classInstructorAdd)) {
                 nameText = classNameAdd.getText().toString();
                 dateText = getClassDateFromDialog(dayCheck, timePicker);
                 instructorText = classInstructorAdd.getText().toString();
@@ -164,7 +164,7 @@ public class ClassElementHandler extends DynamicElementHandler {
             String nameText, dateText, instructorText;
 
             //add empty check for date/time
-            if (nonEmptyAddDialog(classNameEdit, classInstructorEdit)) {
+            if (nonEmptyDialog(classNameEdit, classInstructorEdit)) {
                 nameText = classNameEdit.getText().toString();
                 dateText = getClassDateFromDialog(dayCheckEdit, timePickerEdit);
                 instructorText = classInstructorEdit.getText().toString();
@@ -208,23 +208,7 @@ public class ClassElementHandler extends DynamicElementHandler {
         return days + time;
     }
 
-    /**
-     * Checks if any of the input fields in the dialog are empty.
-     *
-     * @param inputs the text boxes where inputs are received
-     * @return boolean representing whether any of the inputs are empty
-     */
-    private boolean nonEmptyAddDialog(EditText... inputs) {
-        boolean isEmpty = false;
-        for (EditText input : inputs) {
-            if (input.getText().toString().equals("")) {
-                isEmpty = true;
-            }
-        }
-        return !isEmpty;
-    }
-
-    public ArrayList<String> getClassNames() {
+    public static ArrayList<String> getClassNames() {
         return classNames;
     }
 }

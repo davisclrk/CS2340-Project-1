@@ -9,8 +9,11 @@ public class AgendaElement extends DynamicElement {
     private int agendaHour, agendaMinute;
     private String agendaClass;
 
+    private int classIndex;
+
     public AgendaElement(int mainResource, String agendaName,
-                         String agendaClass, String agendaDate, int agendaMonth, int agendaDay, int agendaYear, int agendaHour, int agendaMinute) {
+                         String agendaClass, String agendaDate, int agendaMonth, int agendaDay,
+                         int agendaYear, int agendaHour, int agendaMinute, int classIndex) {
         super(mainResource);
         this.agendaName = agendaName;
         this.agendaMonth = agendaMonth;
@@ -20,6 +23,7 @@ public class AgendaElement extends DynamicElement {
         this.agendaMinute = agendaMinute;
         this.agendaClass = agendaClass;
         this.agendaDate = agendaDate;
+        this.classIndex = classIndex;
     }
 
 
@@ -86,4 +90,9 @@ public class AgendaElement extends DynamicElement {
     public void setAgendaDate(String agendaDate) {
         this.agendaDate = agendaDate;
     }
+
+    public int getClassIndex() {
+        return classIndex;
+    }
+
 }

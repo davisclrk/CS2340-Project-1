@@ -3,19 +3,25 @@ package com.example.a2340project1.ui.agenda;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.a2340project1.R;
 import com.example.a2340project1.ui.DynamicElementHandler;
 import com.example.a2340project1.ui.classes.ClassElement;
+import com.example.a2340project1.ui.classes.ClassElementHandler;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -75,21 +81,32 @@ public class AgendaElementHandler extends DynamicElementHandler {
         View assignmentLayout = inflater.inflate(R.layout.assignment_popup_dialog, null);
         assignmentBuilder.setView(assignmentLayout);
 
+        EditText assignmentDate = assignmentLayout.findViewById(R.id.add_assignment_date);
+        assignmentDate.setEnabled(false);
+
+        Spinner assignmentClass = assignmentLayout.findViewById(R.id.add_assignment_class_spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
+                ClassElementHandler.getClassNames());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        assignmentClass.setAdapter(adapter);
+
         Button datePicker = assignmentLayout.findViewById(R.id.assignment_date_picker);
-        datePicker.setOnClickListener(v1 -> showDatePickerDialog(listener, context));
+        datePicker.setOnClickListener(v1 -> showDatePickerDialog(listener, context, assignmentLayout));
 //        datePicker.setText(displayMonth+"/"+displayDay+"/"+displayYear); // THIS DOES NOT WORK I DONT KNOW WHERE TO PUT THIS SO THAT IT SETS THE BUTTON TEXT AFTER YOU PICK THE DATE ON THE CALENDAR
 
         // add button
         assignmentBuilder.setPositiveButton("OK", (dialog, which) -> {
             EditText assignmentName = assignmentLayout.findViewById(R.id.add_assignment_name);
-            EditText assignmentClass = assignmentLayout.findViewById(R.id.add_assignment_class);
             TimePicker assignmentTime =  assignmentLayout.findViewById(R.id.assignment_time_picker);
             String assignmentDeadline = getAssignmentDeadlineFromDialog(assignmentTime);
 
+
+            //agenda class is null string for now lol
             AssignmentElement newAssignment = new AssignmentElement(R.layout.assignment_grid,
-                    assignmentName.getText().toString(), assignmentClass.getText().toString(), assignmentDeadline, displayMonth, displayDay, displayYear,
-                    assignmentTime.getHour(), assignmentTime.getMinute()
-                    );
+                    assignmentName.getText().toString(), assignmentClass.getSelectedItem().toString(),
+                    assignmentDeadline, displayMonth, displayDay, displayYear,
+                    assignmentTime.getHour(), assignmentTime.getMinute(), assignmentClass.getSelectedItemPosition());
             AgendaElements.add(newAssignment); // remember to use the hashmap implementation too
 
             assignmentAddView(viewGroup, inflater, newAssignment, context);
@@ -106,9 +123,9 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * different input fields.
      *
      * @see DynamicElementHandler#showEditDialog(String, ViewGroup, LayoutInflater, View, Context, int, int, int)
-     *//*
+     */
     public void assignmentEditDialog(ViewGroup viewGroup, LayoutInflater inflater,
-                                View view, ClassElement editedClass, Context context) {
+                                View view, AssignmentElement editedAssignment, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Edit Class");
 
@@ -117,40 +134,36 @@ public class AgendaElementHandler extends DynamicElementHandler {
         builder.setView(customLayout);
 
         EditText assignmentNameEdit = customLayout.findViewById(R.id.add_assignment_name);
-        EditText assignmentClassEdit = customLayout.findViewById(R.id.add_assignment_class);
-        EditText assignmentDate = customLayout.findViewById(R.id.add_assignment_date);
+        Spinner assignmentClassEdit = customLayout.findViewById(R.id.add_assignment_class_spinner);
+        EditText assignmentDateEdit = customLayout.findViewById(R.id.add_assignment_date);
         TimePicker timePickerEdit = customLayout.findViewById(R.id.assignment_time_picker);
 
-        EditText className = view.findViewById(R.id.class_name);
-        EditText classDate = view.findViewById(R.id.class_time);
-        EditText classInstructor = view.findViewById(R.id.class_instructor);
+        assignmentDateEdit.setEnabled(false);
+
+        EditText assignmentName = view.findViewById(R.id.assignment_title);
+        EditText assignmentClass = view.findViewById(R.id.assignment_class);
+        EditText assignmentDate = view.findViewById(R.id.assignment_deadline);
 
         //set editing window to have same inputs as the selected view
-        assignmentNameEdit.setText(className.getText());
-        assignmentClassEdit.setText(classInstructor.getText());
+        assignmentNameEdit.setText(assignmentName.getText());
+        assignmentClassEdit.setSelection(editedAssignment.getClassIndex());
+        assignmentDateEdit.setText(assignmentDate.getText());
 
-        ArrayList<Integer> daysChecked = editedClass.getDaysChecked();
-        int count = daysChecked.size();
-        for (int i = 0; i < count; i++) {
-            ((CheckBox) dayCheckEdit.getChildAt(daysChecked.get(i))).setChecked(true);
-        }
-
-        timePickerEdit.setHour(editedClass.getHour());
-        timePickerEdit.setMinute(editedClass.getMinute());
+        timePickerEdit.setHour(editedAssignment.getAgendaHour());
+        timePickerEdit.setMinute(editedAssignment.getAgendaMinute());
 
         // add a button
         builder.setPositiveButton("OK", (dialog, which) -> {
-            String nameText, dateText, instructorText;
+            String nameText, dateText, classText;
 
-            //add empty check for date/time
-            if (nonEmptyAddDialog(assignmentNameEdit, assignmentClassEdit)) {
+            if (nonEmptyDialog(assignmentNameEdit)) {
                 nameText = assignmentNameEdit.getText().toString();
-                dateText = getClassDateFromDialog(dayCheckEdit, timePickerEdit);
-                instructorText = assignmentClassEdit.getText().toString();
+                dateText = getAssignmentDeadlineFromDialog(timePickerEdit);
+                classText = assignmentClassEdit.getSelectedItem().toString();
 
-                className.setText(nameText);
-                classDate.setText(dateText);
-                classInstructor.setText(instructorText);
+                assignmentName.setText(nameText);
+                assignmentDate.setText(dateText);
+                assignmentClass.setText(classText);
             }
 
         });
@@ -160,7 +173,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
-    }*/
+    }
 
     /**
      *
@@ -225,7 +238,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
         examBuilder.setView(examLayout);
 
         Button datePicker = examLayout.findViewById(R.id.exam_date_picker);
-        datePicker.setOnClickListener(v1 -> showDatePickerDialog(listener, context));
+        datePicker.setOnClickListener(v1 -> showDatePickerDialog(listener, context, examLayout));
 
         // add button
         examBuilder.setPositiveButton("OK", (dialog, which) -> {
@@ -235,7 +248,10 @@ public class AgendaElementHandler extends DynamicElementHandler {
             EditText examLocation = examLayout.findViewById(R.id.add_exam_location);
             String examDate = getAssignmentDeadlineFromDialog(examTime);
 
-            ExamElement newExam = new ExamElement(R.layout.exam_grid, examName.getText().toString(), examClass.getText().toString(), examDate, displayMonth, displayDay, displayYear, examTime.getHour(), examTime.getMinute(), examLocation.getText().toString());
+            //placeholder 0 for index of class
+            ExamElement newExam = new ExamElement(R.layout.exam_grid, examName.getText().toString(),
+                    examClass.getText().toString(), examDate, displayMonth, displayDay, displayYear,
+                    examTime.getHour(), examTime.getMinute(), 0,examLocation.getText().toString());
             AgendaElements.add(newExam);
 
             examAddView(viewGroup, inflater, newExam, context);
@@ -274,13 +290,18 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param listener the onDateSet listener
      * @param context  the context of the destination fragment
      */
-    private void showDatePickerDialog(DatePickerDialog.OnDateSetListener listener, Context context) {
+    private void showDatePickerDialog(DatePickerDialog.OnDateSetListener listener, Context context,
+                                      View dialog) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 context, listener,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         );
+        //datePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, "OK", (dialog1, which) -> {
+            String date = displayMonth + "/" + displayDay + "/" + displayYear;
+            ((EditText) dialog.findViewById(R.id.add_assignment_date)).setText(date);
+        //});
         datePickerDialog.show();
     }
 
