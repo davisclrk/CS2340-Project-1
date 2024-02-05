@@ -2,6 +2,8 @@ package com.example.a2340project1.ui.agenda;
 
 import com.example.a2340project1.ui.DynamicElement;
 
+import java.util.Comparator;
+
 public class AgendaElement extends DynamicElement {
     private String agendaName;
     private String agendaDate;
@@ -9,8 +11,12 @@ public class AgendaElement extends DynamicElement {
     private int agendaHour, agendaMinute;
     private String agendaClass;
 
+    private int classIndex;
+
     public AgendaElement(int mainResource, String agendaName,
-                         String agendaClass, String agendaDate, int agendaMonth, int agendaHour, int agendaMinute, int agendaDay, int agendaYear) {
+
+                         String agendaClass, String agendaDate, int agendaMonth, int agendaDay,
+                         int agendaYear, int agendaHour, int agendaMinute, int classIndex) {
         super(mainResource);
         this.agendaName = agendaName;
         this.agendaMonth = agendaMonth;
@@ -20,8 +26,8 @@ public class AgendaElement extends DynamicElement {
         this.agendaMinute = agendaMinute;
         this.agendaClass = agendaClass;
         this.agendaDate = agendaDate;
+        this.classIndex = classIndex;
     }
-
 
     public String getAgendaName() {
         return agendaName;
@@ -86,4 +92,16 @@ public class AgendaElement extends DynamicElement {
     public void setAgendaDate(String agendaDate) {
         this.agendaDate = agendaDate;
     }
+
+    public int getClassIndex() {
+        return classIndex;
+    }
+
+    public static Comparator<AgendaElement> dateSort = new Comparator<AgendaElement>() {
+        @Override
+        public int compare(AgendaElement o1, AgendaElement o2) {
+            return o1.getAgendaClass().compareTo(o2.getAgendaClass());
+        }
+    };
+
 }

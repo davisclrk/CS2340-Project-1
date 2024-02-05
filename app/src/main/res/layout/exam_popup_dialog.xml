@@ -11,6 +11,7 @@
         android:id="@+id/add_exam_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="@string/exam_title"
         android:inputType="text"
@@ -20,8 +21,9 @@
         app:layout_constraintTop_toBottomOf="@+id/exam_date_picker"
         tools:layout_editor_absoluteX="99dp" />
 
-    <EditText
-        android:id="@+id/add_exam_class"
+
+    <Spinner
+        android:id="@+id/add_exam_class_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -33,6 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/add_exam_name"
         tools:layout_editor_absoluteX="16dp" />
 
+
     <TimePicker
         android:id="@+id/exam_time_picker"
         android:layout_width="wrap_content"
@@ -42,6 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/add_exam_location"
         tools:layout_editor_absoluteX="60dp" />
 
+
     <Button
         android:background="@drawable/button_shape"
         android:id="@+id/exam_date_picker"
@@ -49,10 +53,12 @@
         android:layout_height="wrap_content"
         android:text="@string/pick_date" />
 
+
     <EditText
         android:id="@+id/add_exam_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="@string/exam_location"
         android:inputType="text"
@@ -61,6 +67,18 @@
         app:backgroundTint="@color/textbox_select_color"
         app:layout_constraintTop_toBottomOf="@+id/add_exam_class"
         tools:layout_editor_absoluteX="60dp" />
+
+    <EditText
+        android:id="@+id/add_exam_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="@string/pick_date"
+        android:inputType="text"
+        android:textColorHint="#DDAAAAAA"
+        app:layout_constraintTop_toBottomOf="@+id/exam_date_picker"
+        tools:layout_editor_absoluteX="23dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

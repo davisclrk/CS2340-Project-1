@@ -3,19 +3,28 @@ package com.example.a2340project1.ui.agenda;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.a2340project1.R;
 import com.example.a2340project1.ui.DynamicElementHandler;
+import com.example.a2340project1.ui.classes.ClassElementHandler;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -72,32 +81,124 @@ public class AgendaElementHandler extends DynamicElementHandler {
         View assignmentLayout = inflater.inflate(R.layout.assignment_popup_dialog, null);
         assignmentBuilder.setView(assignmentLayout);
 
+        EditText assignmentDate = assignmentLayout.findViewById(R.id.add_assignment_date);
+        assignmentDate.setEnabled(false);
+
+        Spinner assignmentClass = assignmentLayout.findViewById(R.id.add_assignment_class_spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
+                ClassElementHandler.getClassNames());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        assignmentClass.setAdapter(adapter);
+
         Button datePicker = assignmentLayout.findViewById(R.id.assignment_date_picker);
-        datePicker.setOnClickListener(v1 -> showDatePickerDialog(listener, context));
+        datePicker.setOnClickListener(v1 ->
+                showDatePickerDialog(listener, context, assignmentLayout, R.id.add_assignment_date));
+
+
 //        datePicker.setText(displayMonth+"/"+displayDay+"/"+displayYear); // THIS DOES NOT WORK I DONT KNOW WHERE TO PUT THIS SO THAT IT SETS THE BUTTON TEXT AFTER YOU PICK THE DATE ON THE CALENDAR
 
         //add button
         assignmentBuilder.setPositiveButton("OK", (dialog, which) -> {
             EditText assignmentName = assignmentLayout.findViewById(R.id.add_assignment_name);
-            EditText assignmentClass = assignmentLayout.findViewById(R.id.add_assignment_class);
             TimePicker assignmentTime =  assignmentLayout.findViewById(R.id.assignment_time_picker);
 
             String assignmentDeadline = getAssignmentDeadlineFromDialog(assignmentTime);
 
-            AssignmentElement newAssignment = new AssignmentElement(R.layout.assignment_grid,
-                    assignmentName.getText().toString(), assignmentClass.getText().toString()
-                    ,assignmentDeadline, displayMonth, displayDay, displayYear,
-                    assignmentTime.getHour(), assignmentTime.getMinute()
-                    );
-            AgendaElements.add(newAssignment); // remember to use the hashmap implementation too
 
-            assignmentAddView(viewGroup, inflater, newAssignment, context);
+            if (assignmentClass.getSelectedItem() == null) {
+                Toast.makeText(context, "Make a class first!",
+                        Toast.LENGTH_LONG).show();
+                agendaDialog.dismiss();
+            }
+
+            if (nonEmptyDialog(assignmentName) && assignmentClass.getSelectedItem() != null) {
+                AssignmentElement newAssignment = new AssignmentElement(R.layout.assignment_grid,
+                        assignmentName.getText().toString(), assignmentClass.getSelectedItem().toString(),
+                        assignmentDeadline, displayMonth, displayDay, displayYear,
+                        assignmentTime.getHour(), assignmentTime.getMinute(),
+                        assignmentClass.getSelectedItemPosition());
+                int index = calculateViewPosition(newAssignment.getAgendaMonth(), newAssignment.getAgendaDay(), newAssignment.getAgendaYear(), newAssignment.getAgendaHour(), newAssignment.getAgendaMinute());
+
+                AgendaElements.add(index, newAssignment); // remember to use the hashmap implementation too
+
+                assignmentAddView(viewGroup, inflater, listener, newAssignment, context, index);
+            }
+
             agendaDialog.dismiss();
         });
         assignmentBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         AlertDialog assignmentDialog = assignmentBuilder.create();
         assignmentDialog.show();
+    }
+
+    /**
+     * A version of the superclass showEditDialog method, but with extra variables for the
+     * different input fields.
+     *
+     * @see DynamicElementHandler#showEditDialog(String, ViewGroup, LayoutInflater, View, Context, int, int, int)
+     */
+    public void assignmentEditDialog(ViewGroup viewGroup, LayoutInflater inflater,DatePickerDialog.OnDateSetListener listener,
+                                View view, AssignmentElement editedAssignment, Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Edit Assignment");
+
+        // set the custom layout
+        View customLayout = inflater.inflate(R.layout.assignment_popup_dialog, null);
+        builder.setView(customLayout);
+
+        EditText assignmentNameEdit = customLayout.findViewById(R.id.add_assignment_name);
+        Spinner assignmentClassEdit = customLayout.findViewById(R.id.add_assignment_class_spinner);
+        EditText assignmentDateEdit = customLayout.findViewById(R.id.add_assignment_date);
+        TimePicker timePickerEdit = customLayout.findViewById(R.id.assignment_time_picker);
+
+        assignmentDateEdit.setEnabled(false);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
+                ClassElementHandler.getClassNames());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        assignmentClassEdit.setAdapter(adapter);
+
+        Button datePicker = customLayout.findViewById(R.id.assignment_date_picker);
+        datePicker.setOnClickListener(v1 ->
+                showDatePickerDialog(listener, context, customLayout, R.id.add_assignment_date));
+
+        EditText assignmentName = view.findViewById(R.id.assignment_title);
+        EditText assignmentClass = view.findViewById(R.id.assignment_class);
+        EditText assignmentDate = view.findViewById(R.id.assignment_deadline);
+
+        String date = displayMonth + "/" + displayDay + "/" + displayYear;
+        //set editing window to have same inputs as the selected view
+        assignmentNameEdit.setText(assignmentName.getText());
+        assignmentClassEdit.setSelection(editedAssignment.getClassIndex());
+        assignmentDateEdit.setText(date);
+
+        timePickerEdit.setHour(editedAssignment.getAgendaHour());
+        timePickerEdit.setMinute(editedAssignment.getAgendaMinute());
+
+        // add a button
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            String nameText, dateText, classText;
+
+            if (nonEmptyDialog(assignmentNameEdit)) {
+                nameText = assignmentNameEdit.getText().toString();
+                dateText = getAssignmentDeadlineFromDialog(timePickerEdit);
+                classText = assignmentClassEdit.getSelectedItem().toString();
+
+                assignmentName.setText(nameText);
+                assignmentDate.setText(dateText);
+                assignmentClass.setText(classText);
+            }
+
+        });
+        builder.setNeutralButton("Delete", (dialog, which) -> viewGroup.removeView(view));
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     /**
@@ -126,7 +227,9 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param addedAssignment
      * @param context
      */
-    public void assignmentAddView(ViewGroup viewGroup, LayoutInflater inflater, AssignmentElement addedAssignment, Context context) {
+
+    private void assignmentAddView(ViewGroup viewGroup, LayoutInflater inflater, DatePickerDialog.OnDateSetListener listener, AssignmentElement addedAssignment, Context context, int index) {
+
         View addedView = inflater.inflate(addedAssignment.getMainResource(), null, false);
         EditText assignmentName = addedView.findViewById(R.id.assignment_title);
         EditText assignmentClass = addedView.findViewById(R.id.assignment_class);
@@ -142,7 +245,12 @@ public class AgendaElementHandler extends DynamicElementHandler {
         assignmentDeadline.setText(addedAssignment.getAgendaDate());
 
 
-        viewGroup.addView(addedView);
+        ImageButton assignmentEditButton = addedView.findViewById(R.id.assignment_edit);
+        assignmentEditButton.setOnClickListener(view1 -> assignmentEditDialog(viewGroup,
+                inflater, listener, addedView, addedAssignment, context));
+
+        viewGroup.addView(addedView, index);
+
     }
 
 
@@ -162,39 +270,171 @@ public class AgendaElementHandler extends DynamicElementHandler {
         examBuilder.setView(examLayout);
 
         Button datePicker = examLayout.findViewById(R.id.exam_date_picker);
-        datePicker.setOnClickListener(v1 -> showDatePickerDialog(listener, context));
+        datePicker.setOnClickListener(v1 -> showDatePickerDialog(listener, context, examLayout,
+                R.id.add_exam_date));
 
-        // place the following commented code into setpositivebutton block:
-        //actually adds the view to the context
-        //viewGroup.addView(examLayout);
-        // dismisses original agenda dialog
-        // agendaDialog.dismiss();
+        Spinner examClass = examLayout.findViewById(R.id.add_exam_class_spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
+                ClassElementHandler.getClassNames());
 
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        examClass.setAdapter(adapter);
+
+
+        examBuilder.setPositiveButton("OK", (dialog, which) -> {
+            EditText examName = examLayout.findViewById(R.id.add_exam_name);
+            TimePicker examTime = examLayout.findViewById(R.id.exam_time_picker);
+            EditText examLocation = examLayout.findViewById(R.id.add_exam_location);
+            String examDate = getAssignmentDeadlineFromDialog(examTime);
+
+            if (examClass.getSelectedItem() == null) {
+                Toast.makeText(context, "Make a class first!",
+                        Toast.LENGTH_LONG).show();
+                agendaDialog.dismiss();
+            }
+            if (nonEmptyDialog(examLocation, examName)) {
+                ExamElement newExam = new ExamElement(R.layout.exam_grid, examName.getText().toString(),
+                        examClass.getSelectedItem().toString(), examDate, displayMonth, displayDay, displayYear,
+                        examTime.getHour(), examTime.getMinute(), examClass.getSelectedItemPosition()
+                        ,examLocation.getText().toString());
+                AgendaElements.add(newExam);
+
+                examAddView(viewGroup, inflater, newExam, context);
+            }
+            agendaDialog.dismiss();
+        });
+        examBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         AlertDialog examDialog = examBuilder.create();
         examDialog.show();
     }
 
+
+    /**
+     * jdocs
+     *
+     * @param viewGroup
+     * @param inflater
+     * @param addedExam
+     * @param context
+     */
+    private void examAddView(ViewGroup viewGroup, LayoutInflater inflater, ExamElement addedExam, Context context) {
+        View addedView = inflater.inflate(addedExam.getMainResource(), null, false);
+        EditText examName = addedView.findViewById(R.id.exam_title);
+        EditText examClass = addedView.findViewById(R.id.exam_class);
+        EditText examDate = addedView.findViewById(R.id.exam_datetime);
+        EditText examLocation = addedView.findViewById(R.id.exam_location); // i just realized all these var names are the same
+
+        examName.setEnabled(false);
+        examName.setText(addedExam.getAgendaName());
+        examClass.setEnabled(false);
+        examClass.setText(addedExam.getAgendaClass());
+        examDate.setEnabled(false);
+        examDate.setText(addedExam.getAgendaDate());
+        examLocation.setEnabled(false);
+        examLocation.setText(addedExam.getLocation());
+
+        // still need to add edit functionality
+
+        viewGroup.addView(addedView);
+    }
+
     /**
      * Displays dialog for calendar popup on "Pick Date" button click
      *
-     * @param listener the onDateSet listener
-     * @param context  the context of the destination fragment
+     * @param listener  the onDateSet listener
+     * @param context   the context of the destination fragment
+     * @param dateBoxId
      */
-    private void showDatePickerDialog(DatePickerDialog.OnDateSetListener listener, Context context) {
+    private void showDatePickerDialog(DatePickerDialog.OnDateSetListener listener, Context context,
+                                      View dialog, int dateBoxId) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 context, listener,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         );
+        //datePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, "OK", (dialog1, which) -> {
+            String date = displayMonth + "/" + displayDay + "/" + displayYear;
+            ((EditText) dialog.findViewById(dateBoxId)).setText(date);
+        //});
         datePickerDialog.show();
+
     }
 
+    /**
+     * docs
+     *
+     * @param year
+     * @param month
+     * @param day
+     */
     public void agendaSetDate(int year, int month, int day) {
         displayDay = day;
         displayMonth = month;
         displayYear = year;
     }
 
+    /**
+     * sort by class (not yet tested)
+     *
+     * @param viewGroup
+     * @param inflater
+     */
+    public void agendaSortByClass(ViewGroup viewGroup, LayoutInflater inflater) { // made public for now but change back to private later
+        ArrayList<AgendaElement> AgendaElementClassSort = new ArrayList<>(AgendaElements); // it shouldnt, but make sure that this doesnt refer to agendaElements by reference and accidentally change agendaElements or smoething
+        // also consider moving this arraylist into the fields of the class because it would be lowkey a waste to rebuild it every time? then i wouldnt need to copy the agendaelements arraylist. but then i would need to also add to this arraylist every time (no need to worry about sorting tho)
+
+        Collections.sort(AgendaElementClassSort, AgendaElement.dateSort);
+        // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
+
+        viewGroup.removeAllViews();
+        for (AgendaElement i:AgendaElementClassSort) {
+            View newView = inflater.inflate(i.getMainResource(), null, false);
+            Log.i("VIEWHERE", i.getAgendaClass().toString());
+            viewGroup.addView(newView); // uhhh it does NOT repopulate the fields rn gotta figure that out lol
+        }
+    }
+
+    /**
+     * sort by date (not yet tested)
+     *
+     * @param viewGroup
+     * @param inflater
+     */
+    private void agendaSortByDate(ViewGroup viewGroup, LayoutInflater inflater) {
+        viewGroup.removeAllViews();
+        for (AgendaElement i:AgendaElements) {
+            View newView = inflater.inflate(i.getMainResource(), null, false);
+            viewGroup.addView(newView); // uhhh it does NOT repopulate the fields rn gotta figure that out lol
+            // it seems to be sorting the assignments by class fine tho.
+        }
+        // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
+    }
+
+    /**
+     *
+     * finds the view position in the linear layout based on date and time. rewrite this javadocs later ofc
+     *
+     * @param month
+     * @param day
+     * @param year
+     * @param hour
+     * @param minute
+     * @return
+     */
+    private int calculateViewPosition(int month, int day, int year, int hour, int minute) {
+        int index = 0;
+
+        while (index < AgendaElements.size() && year > AgendaElements.get(index).getAgendaYear()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month > AgendaElements.get(index).getAgendaMonth()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month == AgendaElements.get(index).getAgendaMonth() &&
+                day > AgendaElements.get(index).getAgendaDay()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month == AgendaElements.get(index).getAgendaMonth() &&
+                day == AgendaElements.get(index).getAgendaDay() && hour > AgendaElements.get(index).getAgendaHour()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month == AgendaElements.get(index).getAgendaMonth() &&
+                day == AgendaElements.get(index).getAgendaDay() && hour == AgendaElements.get(index).getAgendaHour() && minute > AgendaElements.get(index).getAgendaMinute()) index++;
+
+        return index;
+    }
 }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,7 +35,7 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
     private FragmentAgendaBinding binding;
     private final AgendaElementHandler ELEMENT_HANDLER = new AgendaElementHandler();
 
-    private LinearLayout layoutList; // even changing to public doesnt fix the code in agendaelementhandler
+    private LinearLayout layoutList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
     }
 
     // NOTE: there should be 2 filters at the top, one for showing exam/assignment/both and one for sorting by date/class
+    // ngl idk how to do the exam/assignment/both filter
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -59,6 +61,7 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
             ELEMENT_HANDLER.agendaAddDialog(layoutList, getLayoutInflater(), this.getContext(),
                     this);
         });
+
     }
 
     @Override

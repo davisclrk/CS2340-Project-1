@@ -72,4 +72,20 @@ public class DynamicElementHandler {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    /**
+     * Checks if any of the input fields in the dialog are empty.
+     *
+     * @param inputs the text boxes where inputs are received
+     * @return boolean representing whether any of the inputs are empty
+     */
+    public boolean nonEmptyDialog(EditText... inputs) {
+        boolean isEmpty = false;
+        for (EditText input : inputs) {
+            if (input.getText().toString().equals("")) {
+                isEmpty = true;
+            }
+        }
+        return !isEmpty;
+    }
 }
