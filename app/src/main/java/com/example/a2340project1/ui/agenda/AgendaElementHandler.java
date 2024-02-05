@@ -3,8 +3,6 @@ package com.example.a2340project1.ui.agenda;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +18,6 @@ import android.widget.Toast;
 import com.example.a2340project1.R;
 import com.example.a2340project1.ui.DynamicElementHandler;
 import com.example.a2340project1.ui.classes.ClassElementHandler;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -134,7 +131,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
      *
      * @see DynamicElementHandler#showEditDialog(String, ViewGroup, LayoutInflater, View, Context, int, int, int)
      */
-    // shouldnt this be private? we need proper encapsulation
+    // shouldnt this be private? we need proper encapsulation -- sure lol
     public void assignmentEditDialog(ViewGroup viewGroup, LayoutInflater inflater, DatePickerDialog.OnDateSetListener listener,
                                 View view, AssignmentElement editedAssignment, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -288,14 +285,16 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 agendaDialog.dismiss();
             }
 
-            // does this need examClass.getSelectedItem() != null? it shuoldnt right since it checks above already
-            if (nonEmptyDialog(examLocation, examName)) {
+            // does this need examClass.getSelectedItem() != null? it shouldn't right since it checks above already
+            //you'd think so but it crashes if you don't lol
+            if (nonEmptyDialog(examLocation, examName) && examClass.getSelectedItem() != null) {
                 ExamElement newExam = new ExamElement(R.layout.exam_grid, examName.getText().toString(),
                         examClass.getSelectedItem().toString(), examDate, displayMonth, displayDay, displayYear,
                         examTime.getHour(), examTime.getMinute(), examClass.getSelectedItemPosition(),
                         examLocation.getText().toString());
 
-                int index = calculateViewPosition(newExam.getAgendaMonth(), newExam.getAgendaDay(), newExam.getAgendaYear(), newExam.getAgendaHour(), newExam.getAgendaMinute());
+                int index = calculateViewPosition(newExam.getAgendaMonth(), newExam.getAgendaDay(),
+                        newExam.getAgendaYear(), newExam.getAgendaHour(), newExam.getAgendaMinute());
                 AgendaElements.add(index, newExam);
 
                 examAddView(viewGroup, inflater, listener, newExam, context, index);
@@ -320,7 +319,70 @@ public class AgendaElementHandler extends DynamicElementHandler {
      */
     private void examEditDialog(ViewGroup viewGroup, LayoutInflater inflater, DatePickerDialog.OnDateSetListener listener,
                                 View view, ExamElement editedExam, Context context) {
-        // nNEEDS IMPLEMENTATION
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Edit Exam");
+
+        // set the custom layout
+        View customLayout = inflater.inflate(R.layout.exam_popup_dialog, null);
+        builder.setView(customLayout);
+
+        EditText examNameEdit = customLayout.findViewById(R.id.add_exam_name);
+        Spinner examClassEdit = customLayout.findViewById(R.id.add_exam_class_spinner);
+        EditText examDateEdit = customLayout.findViewById(R.id.add_exam_date);
+        TimePicker timePickerEdit = customLayout.findViewById(R.id.exam_time_picker);
+        EditText examLocationEdit = customLayout.findViewById(R.id.add_exam_location);
+
+        examDateEdit.setEnabled(false);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
+                ClassElementHandler.getClassNames());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        examClassEdit.setAdapter(adapter);
+
+        Button datePicker = customLayout.findViewById(R.id.exam_date_picker);
+        datePicker.setOnClickListener(v1 ->
+                showDatePickerDialog(listener, context, customLayout, R.id.add_exam_date));
+
+        EditText examName = view.findViewById(R.id.exam_title);
+        EditText examClass = view.findViewById(R.id.exam_class);
+        EditText examDate = view.findViewById(R.id.exam_time);
+        EditText examLocation = view.findViewById(R.id.exam_location);
+
+        String date = displayMonth + "/" + displayDay + "/" + displayYear;
+        //set editing window to have same inputs as the selected view
+        examNameEdit.setText(examName.getText());
+        examClassEdit.setSelection(editedExam.getClassIndex());
+        examDateEdit.setText(date);
+        examLocationEdit.setText(examLocation.getText());
+
+        timePickerEdit.setHour(editedExam.getAgendaHour());
+        timePickerEdit.setMinute(editedExam.getAgendaMinute());
+
+        // add a button
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            String nameText, dateText, classText, locationText;
+
+            if (nonEmptyDialog(examNameEdit)) {
+                nameText = examNameEdit.getText().toString();
+                dateText = getAssignmentDeadlineFromDialog(timePickerEdit);
+                classText = examClassEdit.getSelectedItem().toString();
+                locationText = examLocationEdit.getText().toString();
+
+                examName.setText(nameText);
+                examDate.setText(dateText);
+                examClass.setText(classText);
+                examLocation.setText(locationText);
+            }
+
+        });
+        builder.setNeutralButton("Delete", (dialog, which) -> viewGroup.removeView(view));
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
 
@@ -332,10 +394,11 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param addedExam
      * @param context
      */
-    private void examAddView(ViewGroup viewGroup, LayoutInflater inflater, DatePickerDialog.OnDateSetListener listener, ExamElement addedExam, Context context, int index) {
+    private void examAddView(ViewGroup viewGroup, LayoutInflater inflater,
+                             DatePickerDialog.OnDateSetListener listener, ExamElement addedExam, Context context, int index) {
         View addedView = inflater.inflate(addedExam.getMainResource(), null, false);
-        EditText examName = addedView.findViewById(R.id.exam_title);
-        EditText examClass = addedView.findViewById(R.id.exam_class);
+        EditText examName = addedView.findViewById(R.id.exam_class);
+        EditText examClass = addedView.findViewById(R.id.exam_title);
         EditText examDate = addedView.findViewById(R.id.exam_time);
         EditText examLocation = addedView.findViewById(R.id.exam_location); // i just realized all these var names are the same as vars defined elsewhere. its fine since its in the funcitno but might be confusing to read
 
