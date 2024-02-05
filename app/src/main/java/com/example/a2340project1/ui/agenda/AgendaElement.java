@@ -10,7 +10,7 @@ public class AgendaElement extends DynamicElement {
     private String agendaClass;
 
     public AgendaElement(int mainResource, String agendaName,
-                         String agendaClass, String agendaDate, int agendaMonth, int agendaHour, int agendaMinute, int agendaDay, int agendaYear) {
+                         String agendaClass, String agendaDate, int agendaMonth, int agendaDay, int agendaYear, int agendaHour, int agendaMinute) {
         super(mainResource);
         this.agendaName = agendaName;
         this.agendaMonth = agendaMonth;

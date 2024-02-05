@@ -15,6 +15,7 @@ import com.example.a2340project1.R;
 import com.example.a2340project1.ui.DynamicElement;
 import com.example.a2340project1.ui.DynamicElementHandler;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 /**
  * Handles adding, removing, and editing dynamically added classes to the
@@ -25,6 +26,8 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class ClassElementHandler extends DynamicElementHandler {
+
+    private final ArrayList<String> classNames = new ArrayList<>();
     /**
      * A version of the superclass method of the same name. Adds a class element to the
      * context.
@@ -90,6 +93,7 @@ public class ClassElementHandler extends DynamicElementHandler {
                         nameText, dateText, instructorText, daysChecked, hour, minute);
 
                 addView(viewGroup, inflater, newClass, context);
+                classNames.add(nameText);
             }
 
         });
@@ -218,5 +222,9 @@ public class ClassElementHandler extends DynamicElementHandler {
             }
         }
         return !isEmpty;
+    }
+
+    public ArrayList<String> getClassNames() {
+        return classNames;
     }
 }

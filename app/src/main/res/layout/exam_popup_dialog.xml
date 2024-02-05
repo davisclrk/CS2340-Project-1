@@ -14,8 +14,10 @@
         android:hint="@string/exam_title"
         android:inputType="text"
         android:textColorHint="#DDAAAAAA"
-        tools:layout_editor_absoluteX="106dp"
-        tools:layout_editor_absoluteY="39dp" />
+        app:layout_constraintBottom_toTopOf="@+id/add_exam_class"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/add_exam_class"
@@ -25,22 +27,29 @@
         android:hint="@string/exam_course"
         android:inputType="text"
         android:textColorHint="#DDAAAAAA"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="112dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TimePicker
         android:id="@+id/exam_time_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:timePickerMode="spinner"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="259dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/exam_date_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pick_date" />
+        android:text="@string/pick_date"
+        app:layout_constraintBottom_toTopOf="@+id/add_exam_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/add_exam_location"
@@ -50,8 +59,10 @@
         android:hint="@string/exam_location"
         android:inputType="text"
         android:textColorHint="#DDAAAAAA"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="186dp" />
+        app:layout_constraintBottom_toTopOf="@+id/exam_time_picker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_exam_class" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
