@@ -336,12 +336,19 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param viewGroup
      * @param inflater
      */
-    private void agendaSortByClass(ViewGroup viewGroup, LayoutInflater inflater) {
+    public void agendaSortByClass(ViewGroup viewGroup, LayoutInflater inflater) { // made public for now but change back to private later
         ArrayList<AgendaElement> AgendaElementClassSort = new ArrayList<>(AgendaElements); // it shouldnt, but make sure that this doesnt refer to agendaElements by reference and accidentally change agendaElements or smoething
         // also consider moving this arraylist into the fields of the class because it would be lowkey a waste to rebuild it every time? then i wouldnt need to copy the agendaelements arraylist. but then i would need to also add to this arraylist every time (no need to worry about sorting tho)
 
-//        Collections.sort(AgendaElementClassSort);
+        Collections.sort(AgendaElementClassSort, AgendaElement.dateSort);
         // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
+
+        viewGroup.removeAllViews();
+        for (AgendaElement i:AgendaElementClassSort) {
+            View newView = inflater.inflate(i.getMainResource(), null, false);
+            Log.i("VIEWHERE", i.getAgendaClass().toString());
+            viewGroup.addView(newView); // uhhh it does NOT repopulate the fields rn gotta figure that out lol
+        }
     }
 
     /**
@@ -354,7 +361,8 @@ public class AgendaElementHandler extends DynamicElementHandler {
         viewGroup.removeAllViews();
         for (AgendaElement i:AgendaElements) {
             View newView = inflater.inflate(i.getMainResource(), null, false);
-            viewGroup.addView(newView);
+            viewGroup.addView(newView); // uhhh it does NOT repopulate the fields rn gotta figure that out lol
+            // it seems to be sorting the assignments by class fine tho.
         }
         // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
     }
