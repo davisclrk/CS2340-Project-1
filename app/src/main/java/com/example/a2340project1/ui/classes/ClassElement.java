@@ -57,4 +57,5 @@ public class ClassElement extends DynamicElement {
     public void setInstructor(String instructor) {
         this.instructor = instructor;
     }
+
 }
