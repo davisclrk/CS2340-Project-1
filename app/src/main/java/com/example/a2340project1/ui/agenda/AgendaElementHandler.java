@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.example.a2340project1.ui.classes.ClassElementHandler;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -107,7 +109,6 @@ public class AgendaElementHandler extends DynamicElementHandler {
                     assignmentName.getText().toString(), assignmentClass.getSelectedItem().toString(),
                     assignmentDeadline, displayMonth, displayDay, displayYear,
                     assignmentTime.getHour(), assignmentTime.getMinute(), assignmentClass.getSelectedItemPosition());
-            AgendaElements.add(newAssignment);
 
             int index = calculateViewPosition(newAssignment.getAgendaMonth(), newAssignment.getAgendaDay(), newAssignment.getAgendaYear(), newAssignment.getAgendaHour(), newAssignment.getAgendaMinute());
             // im using the same vars twice so should prob instantiate acutal vars above and then use them here
@@ -266,6 +267,14 @@ public class AgendaElementHandler extends DynamicElementHandler {
         examDialog.show();
     }
 
+    /**
+     * jdocs
+     *
+     * @param viewGroup
+     * @param inflater
+     * @param addedExam
+     * @param context
+     */
     private void examAddView(ViewGroup viewGroup, LayoutInflater inflater, ExamElement addedExam, Context context) {
         View addedView = inflater.inflate(addedExam.getMainResource(), null, false);
         EditText examName = addedView.findViewById(R.id.exam_title);
@@ -322,16 +331,44 @@ public class AgendaElementHandler extends DynamicElementHandler {
     }
 
     /**
-     * sort by class
+     * sort by class (not yet tested)
      *
+     * @param viewGroup
+     * @param inflater
      */
-    private void agendaClassSort() {
-        // i guess to restore the original list i can just remove all entries from linear layout and then repopulate it with the arraylist
+    private void agendaSortByClass(ViewGroup viewGroup, LayoutInflater inflater) {
+        ArrayList<AgendaElement> AgendaElementClassSort = new ArrayList<>(AgendaElements); // it shouldnt, but make sure that this doesnt refer to agendaElements by reference and accidentally change agendaElements or smoething
+        // also consider moving this arraylist into the fields of the class because it would be lowkey a waste to rebuild it every time? then i wouldnt need to copy the agendaelements arraylist. but then i would need to also add to this arraylist every time (no need to worry about sorting tho)
+
+//        Collections.sort(AgendaElementClassSort);
+        // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
     }
 
     /**
-     * finds the view position in the linear layout based on date and time
+     * sort by date (not yet tested)
      *
+     * @param viewGroup
+     * @param inflater
+     */
+    private void agendaSortByDate(ViewGroup viewGroup, LayoutInflater inflater) {
+        viewGroup.removeAllViews();
+        for (AgendaElement i:AgendaElements) {
+            View newView = inflater.inflate(i.getMainResource(), null, false);
+            viewGroup.addView(newView);
+        }
+        // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
+    }
+
+    /**
+     *
+     * finds the view position in the linear layout based on date and time. rewrite this javadocs later ofc
+     *
+     * @param month
+     * @param day
+     * @param year
+     * @param hour
+     * @param minute
+     * @return
      */
     private int calculateViewPosition(int month, int day, int year, int hour, int minute) {
         int index = 0;
