@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/exam_date_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,6 +79,8 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
+        android:textCursorDrawable="@drawable/text_cursor"
+        app:backgroundTint="@color/textbox_select_color"
         android:id="@+id/add_exam_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
