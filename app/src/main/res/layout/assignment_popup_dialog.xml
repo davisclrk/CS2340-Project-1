@@ -4,62 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/assignment_grid">
+    android:id="@+id/assignment_grid"
+    android:theme="@style/DialogBoxTheme">
+
 
     <EditText
         android:id="@+id/add_assignment_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="208dp"
+        android:layout_marginBottom="45dp"
         android:ems="10"
         android:hint="@string/assignment_title"
         android:inputType="text"
         android:textColorHint="#DDAAAAAA"
-        app:layout_constraintBottom_toTopOf="@+id/assignment_time_picker"
+        android:textCursorDrawable="@drawable/text_cursor"
+        app:backgroundTint="@color/textbox_select_color"
+        app:layout_constraintBottom_toTopOf="@+id/add_assignment_class"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/assignment_date_picker"/>
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-<!--    <EditText-->
-<!--        android:id="@+id/add_assignment_class"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:ems="10"-->
-<!--        android:hint="@string/assignment_class"-->
-<!--        android:inputType="text"-->
-<!--        android:textColorHint="#DDAAAAAA"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/assignment_time_picker"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/add_assignment_name" />-->
+    <EditText
+        android:id="@+id/add_assignment_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="45dp"
+        android:ems="10"
+        android:hint="@string/assignment_class"
+        android:inputType="text"
+        android:textColorHint="#DDAAAAAA"
+        android:textCursorDrawable="@drawable/text_cursor"
+        app:backgroundTint="@color/textbox_select_color"
+        app:layout_constraintBottom_toTopOf="@+id/add_assignment_class_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TimePicker
         android:id="@+id/assignment_time_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="28dp"
+        android:theme="@style/TimePickerTheme"
         android:timePickerMode="spinner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <Button
         android:id="@+id/assignment_date_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
         android:text="@string/pick_date"
+        app:layout_constraintBottom_toTopOf="@+id/add_assignment_date"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-  
-  <EditText
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.595" />
+
+    <EditText
         android:id="@+id/add_assignment_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginBottom="45dp"
         android:ems="10"
         android:hint="@string/pick_date"
         android:inputType="text"
@@ -67,19 +78,17 @@
         app:layout_constraintBottom_toTopOf="@+id/add_assignment_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/assignment_date_picker"
-        app:layout_constraintVertical_bias="0.216" />
-
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/add_assignment_class_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toTopOf="@+id/assignment_time_picker"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_assignment_name" />
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

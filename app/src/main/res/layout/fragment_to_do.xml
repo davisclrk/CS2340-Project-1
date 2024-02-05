@@ -4,29 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.toDo.ToDoFragment"
-    android:nestedScrollingEnabled="true" >
+    android:background="@color/page_background"
+    android:nestedScrollingEnabled="true"
+    tools:context=".ui.toDo.ToDoFragment">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/add_todolist_button"
         android:layout_width="150dp"
         android:layout_height="41dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/task_shape"
-        android:backgroundTint="#63372c"
+        android:background="@drawable/button_shape"
         android:text="@string/add_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_task_text"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.045" />
 
     <EditText
+        android:textCursorDrawable="@drawable/text_cursor"
         android:id="@+id/add_task_text"
         android:layout_width="267dp"
         android:layout_height="47dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/round_grey"
         android:ems="10"
         android:fontFamily="sans-serif"
@@ -43,6 +43,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="370dp"
         android:layout_height="477dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/border_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
