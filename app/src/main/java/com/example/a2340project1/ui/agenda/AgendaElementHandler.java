@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
@@ -62,7 +63,9 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param listener
      * @param viewGroup
      */
-    private void agendaAddAssignment(LayoutInflater inflater, Context context, DatePickerDialog.OnDateSetListener listener, ViewGroup viewGroup, AlertDialog agendaDialog) {
+    private void agendaAddAssignment(LayoutInflater inflater, Context context,
+                                     DatePickerDialog.OnDateSetListener listener,
+                                     ViewGroup viewGroup, AlertDialog agendaDialog) {
         AlertDialog.Builder assignmentBuilder = new AlertDialog.Builder(context);
         assignmentBuilder.setTitle("Add Assignment");
 
@@ -79,8 +82,13 @@ public class AgendaElementHandler extends DynamicElementHandler {
             EditText assignmentClass = assignmentLayout.findViewById(R.id.add_assignment_class);
             TimePicker assignmentTime =  assignmentLayout.findViewById(R.id.assignment_time_picker);
 
-            AssignmentElement newAssignment = new AssignmentElement(R.layout.assignment_grid, assignmentName.getText().toString(), displayMonth, displayDay, displayYear,
-                    assignmentTime.getHour(), assignmentTime.getMinute(), assignmentClass.getText().toString());
+            String assignmentDeadline = getAssignmentDeadlineFromDialog(assignmentTime);
+
+            AssignmentElement newAssignment = new AssignmentElement(R.layout.assignment_grid,
+                    assignmentName.getText().toString(), assignmentClass.getText().toString()
+                    ,assignmentDeadline, displayMonth, displayDay, displayYear,
+                    assignmentTime.getHour(), assignmentTime.getMinute()
+                    );
             AgendaElements.add(newAssignment); // remember to use the hashmap implementation too
 
             assignmentAddView(viewGroup, inflater, newAssignment, context);
@@ -90,6 +98,24 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
         AlertDialog assignmentDialog = assignmentBuilder.create();
         assignmentDialog.show();
+    }
+
+    /**
+     *
+     * @return
+     */
+    private String getAssignmentDeadlineFromDialog(TimePicker timePicker) {
+        String time, date, hour, minute, AMPM;
+        hour = (timePicker.getHour() > 12) ?
+                String.valueOf(timePicker.getHour() - 12) : String.valueOf(timePicker.getHour());
+        minute = (timePicker.getMinute() < 10) ?
+                "0" + timePicker.getMinute() : String.valueOf(timePicker.getMinute());
+        AMPM = (timePicker.getHour() < 12) ? "AM" : "PM";
+        time = hour + ":" + minute + " " + AMPM;
+
+        date = displayMonth + "/" + displayDay + "/" + displayYear;
+
+        return date + ", " + time;
     }
 
     /**
@@ -104,6 +130,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
         View addedView = inflater.inflate(addedAssignment.getMainResource(), null, false);
         EditText assignmentName = addedView.findViewById(R.id.assignment_title);
         EditText assignmentClass = addedView.findViewById(R.id.assignment_class);
+        EditText assignmentDeadline = addedView.findViewById(R.id.assignment_deadline);
 
         // need to pass in the due date and time still. to do that i need to parse from the object which means i have to input it into the object better.
 
@@ -111,6 +138,9 @@ public class AgendaElementHandler extends DynamicElementHandler {
         assignmentName.setText(addedAssignment.getAgendaName());
         assignmentClass.setEnabled(false);
         assignmentClass.setText(addedAssignment.getAgendaClass());
+        assignmentDeadline.setEnabled(false);
+        assignmentDeadline.setText(addedAssignment.getAgendaDate());
+
 
         viewGroup.addView(addedView);
     }

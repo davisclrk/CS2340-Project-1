@@ -1,17 +1,16 @@
 package com.example.a2340project1.ui.agenda;
 
-import androidx.annotation.NonNull;
-
 import com.example.a2340project1.ui.DynamicElement;
 
 public class AgendaElement extends DynamicElement {
     private String agendaName;
+    private String agendaDate;
     private int agendaMonth, agendaDay, agendaYear;
     private int agendaHour, agendaMinute;
     private String agendaClass;
 
     public AgendaElement(int mainResource, String agendaName,
-                        int agendaMonth, int agendaDay, int agendaYear, int agendaHour, int agendaMinute, String agendaClass) {
+                         String agendaClass, String agendaDate, int agendaMonth, int agendaHour, int agendaMinute, int agendaDay, int agendaYear) {
         super(mainResource);
         this.agendaName = agendaName;
         this.agendaMonth = agendaMonth;
@@ -20,6 +19,7 @@ public class AgendaElement extends DynamicElement {
         this.agendaHour = agendaHour;
         this.agendaMinute = agendaMinute;
         this.agendaClass = agendaClass;
+        this.agendaDate = agendaDate;
     }
 
 
@@ -77,5 +77,13 @@ public class AgendaElement extends DynamicElement {
 
     public void setAgendaMinute(int agendaMinute) {
         this.agendaMinute = agendaMinute;
+    }
+
+    public String getAgendaDate() {
+        return agendaDate;
+    }
+
+    public void setAgendaDate(String agendaDate) {
+        this.agendaDate = agendaDate;
     }
 }
