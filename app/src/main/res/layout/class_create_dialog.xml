@@ -3,17 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/DialogBoxTheme">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/popup_shape">
 
         <TimePicker
             android:id="@+id/class_time_picker"
             android:layout_width="219dp"
             android:layout_height="83dp"
             android:layout_marginEnd="44dp"
+            android:theme="@style/TimePickerTheme"
             android:timePickerMode="spinner"
             app:layout_constraintBottom_toTopOf="@+id/add_class_name"
             app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/add_class_name"
             android:layout_width="154dp"
             android:layout_height="wrap_content"
@@ -32,10 +35,12 @@
             android:hint="@string/add_class_name"
             android:inputType="text"
             android:textColorHint="#DDAAAAAA"
+            android:textCursorDrawable="@drawable/text_cursor"
+            app:backgroundTint="@color/textbox_select_color"
             app:layout_constraintBottom_toTopOf="@+id/add_class_instructor"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/add_class_instructor"
             android:layout_width="194dp"
             android:layout_height="wrap_content"
@@ -45,6 +50,8 @@
             android:hint="@string/add_instructor_name"
             android:inputType="text"
             android:textColorHint="#DDAAAAAA"
+            android:textCursorDrawable="@drawable/text_cursor"
+            app:backgroundTint="@color/textbox_select_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -61,30 +68,36 @@
                 android:id="@+id/monday_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="M" />
+                android:buttonTint="@color/checkbox_color"
+                android:text="M"
+                android:textColorLink="@color/checkbox_color" />
 
             <CheckBox
                 android:id="@+id/tuesday_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/checkbox_color"
                 android:text="T" />
 
             <CheckBox
                 android:id="@+id/wednesday_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/checkbox_color"
                 android:text="W" />
 
             <CheckBox
                 android:id="@+id/thursday_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/checkbox_color"
                 android:text="TH" />
 
             <CheckBox
                 android:id="@+id/friday_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/checkbox_color"
                 android:text="F" />
         </RadioGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>

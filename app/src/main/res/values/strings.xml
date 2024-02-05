@@ -18,7 +18,7 @@
     <string name="pick_date">Pick Date</string>
     <string name="assignment_title">Assignment title...</string>
     <string name="assignment_class">Course name...</string>
-    <string name="exam_title">Exam name...</string>
+    <string name="exam_title">Exam title...</string>
     <string name="exam_location">Exam location...</string>
     <string name="exam_course">Course name...</string>
 </resources>

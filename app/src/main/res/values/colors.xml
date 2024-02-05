@@ -7,4 +7,36 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="offwhite">#EEE2DF</color>
+    <color name="beige">#EED7C5</color>
+    <color name="rosebrown">#C89F9C</color>
+    <color name="burntsienna">#C97C5D</color>
+    <color name="redwood">#B36A5E</color>
+
+    <color name="button_color">@color/burntsienna</color>
+    <color name="button_color_dark">@color/redwood</color>
+    <color name="button_pressed">@color/redwood</color>
+    <color name="button_pressed_dark">@color/redwood</color>
+    <color name="button_text_color">@color/black</color>
+
+    <color name="navbar_color">@color/redwood</color>
+    <!--This value will also change the select color on the navbar-->
+    <color name="banner_color">@color/burntsienna</color>
+
+    <!--Affects information panels like classes, assignment/exam, task pane-->
+    <color name="panel_color">@color/rosebrown</color>
+    <color name="panel_text_color">@color/black</color>
+    <color name="panel_outline">@color/redwood</color>
+
+    <color name="page_background">@color/offwhite</color>
+
+    <color name="textbox_color">@color/beige</color>
+    <color name="textbox_text_color">@color/black</color>
+    <!--Affects the underscoring and blinking bar color when entering text-->
+    <color name="textbox_select_color">@color/redwood</color>
+
+    <color name="checkbox_color">@color/burntsienna</color>
+
+    <color name="timepicker_select">@color/burntsienna</color>
 </resources>

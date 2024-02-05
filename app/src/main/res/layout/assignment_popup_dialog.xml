@@ -4,9 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/assignment_grid">
+    android:id="@+id/assignment_grid"
+    android:theme="@style/DialogBoxTheme">
 
     <EditText
+        app:backgroundTint="@color/textbox_select_color"
+        android:textCursorDrawable="@drawable/text_cursor"
         android:id="@+id/add_assignment_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,6 +23,8 @@
         app:layout_constraintTop_toBottomOf="@+id/assignment_date_picker" />
 
     <EditText
+        app:backgroundTint="@color/textbox_select_color"
+        android:textCursorDrawable="@drawable/text_cursor"
         android:id="@+id/add_assignment_class"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,6 +38,7 @@
         app:layout_constraintTop_toBottomOf="@+id/add_assignment_name" />
 
     <TimePicker
+        android:theme="@style/TimePickerTheme"
         android:id="@+id/assignment_time_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +48,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:background="@drawable/button_shape"
         android:id="@+id/assignment_date_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

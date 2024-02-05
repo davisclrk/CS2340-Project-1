@@ -4,7 +4,7 @@ public class ExamElement  extends AgendaElement {
     private String location;
 
     public ExamElement(int mainResource, String agendaName, String agendaClass, String agendaDate, int agendaMonth, int agendaDay, int agendaYear, int agendaHour, int agendaMinute, String location) {
-        super(mainResource, agendaName, agendaClass, agendaDate, agendaMonth, agendaDay, agendaYear, agendaHour, agendaMinute);
+        super(mainResource, agendaName, agendaClass, agendaDate, agendaMonth, agendaHour, agendaMinute, agendaDay, agendaYear);
         this.location = location;
     }
 
