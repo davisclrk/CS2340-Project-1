@@ -393,6 +393,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
             View newView = inflater.inflate(i.getMainResource(), null, false);
             Log.i("VIEWHERE", i.getAgendaClass().toString());
             viewGroup.addView(newView); // uhhh it does NOT repopulate the fields rn gotta figure that out lol
+            // it seems to be sorting the assignments by class fine tho.
         }
     }
 
@@ -407,7 +408,6 @@ public class AgendaElementHandler extends DynamicElementHandler {
         for (AgendaElement i:AgendaElements) {
             View newView = inflater.inflate(i.getMainResource(), null, false);
             viewGroup.addView(newView); // uhhh it does NOT repopulate the fields rn gotta figure that out lol
-            // it seems to be sorting the assignments by class fine tho.
         }
         // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
     }
