@@ -10,6 +10,7 @@
         android:id="@+id/scrollView3"
         android:layout_width="376dp"
         android:layout_height="657dp"
+        android:background="@color/page_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.457"
@@ -24,12 +25,15 @@
             android:orientation="vertical" />
     </ScrollView>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/add_classes_button"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="92dp"
+        android:background="@drawable/button_shape"
         android:text="Add Class"
+        android:textColor="@color/button_text_color"
+        android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

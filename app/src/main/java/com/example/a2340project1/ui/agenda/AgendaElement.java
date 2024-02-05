@@ -14,6 +14,7 @@ public class AgendaElement extends DynamicElement {
     private int classIndex;
 
     public AgendaElement(int mainResource, String agendaName,
+
                          String agendaClass, String agendaDate, int agendaMonth, int agendaDay,
                          int agendaYear, int agendaHour, int agendaMinute, int classIndex) {
         super(mainResource);

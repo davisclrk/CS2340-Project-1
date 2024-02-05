@@ -3,6 +3,7 @@ package com.example.a2340project1.ui.agenda;
 public class ExamElement  extends AgendaElement {
     private String location;
 
+
     public ExamElement(int mainResource, String agendaName, String agendaClass, String agendaDate,
                        int agendaMonth, int agendaDay, int agendaYear, int agendaHour,
                        int agendaMinute, int classIndex, String location) {

@@ -15,7 +15,7 @@
         android:layout_weight="1"
         android:background="@drawable/round_grey"
         android:padding="10dp"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/textbox_text_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
