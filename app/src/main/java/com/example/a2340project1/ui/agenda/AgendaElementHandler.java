@@ -3,6 +3,9 @@ package com.example.a2340project1.ui.agenda;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -112,10 +116,13 @@ public class AgendaElementHandler extends DynamicElementHandler {
                         assignmentDeadline, displayMonth, displayDay, displayYear,
                         assignmentTime.getHour(), assignmentTime.getMinute(),
                         assignmentClass.getSelectedItemPosition());
-                AgendaElements.add(newAssignment); // remember to use the hashmap implementation too
+                int index = calculateViewPosition(newAssignment.getAgendaMonth(), newAssignment.getAgendaDay(), newAssignment.getAgendaYear(), newAssignment.getAgendaHour(), newAssignment.getAgendaMinute());
 
-                assignmentAddView(viewGroup, inflater, listener, newAssignment, context);
+                AgendaElements.add(index, newAssignment); // remember to use the hashmap implementation too
+
+                assignmentAddView(viewGroup, inflater, listener, newAssignment, context, index);
             }
+
             agendaDialog.dismiss();
         });
         assignmentBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -220,7 +227,8 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param addedAssignment
      * @param context
      */
-    private void assignmentAddView(ViewGroup viewGroup, LayoutInflater inflater, DatePickerDialog.OnDateSetListener listener, AssignmentElement addedAssignment, Context context) {
+    private void assignmentAddView(ViewGroup viewGroup, LayoutInflater inflater, DatePickerDialog.OnDateSetListener listener, AssignmentElement addedAssignment, Context context, int index) {
+
         View addedView = inflater.inflate(addedAssignment.getMainResource(), null, false);
         EditText assignmentName = addedView.findViewById(R.id.assignment_title);
         EditText assignmentClass = addedView.findViewById(R.id.assignment_class);
@@ -237,7 +245,8 @@ public class AgendaElementHandler extends DynamicElementHandler {
         assignmentEditButton.setOnClickListener(view1 -> assignmentEditDialog(viewGroup,
                 inflater, listener, addedView, addedAssignment, context));
 
-        viewGroup.addView(addedView);
+        viewGroup.addView(addedView, index);
+
     }
 
 
@@ -295,6 +304,14 @@ public class AgendaElementHandler extends DynamicElementHandler {
         examDialog.show();
     }
 
+    /**
+     * jdocs
+     *
+     * @param viewGroup
+     * @param inflater
+     * @param addedExam
+     * @param context
+     */
     private void examAddView(ViewGroup viewGroup, LayoutInflater inflater, ExamElement addedExam, Context context) {
         View addedView = inflater.inflate(addedExam.getMainResource(), null, false);
         EditText examName = addedView.findViewById(R.id.exam_title);
@@ -339,10 +356,79 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
     }
 
+    /**
+     * docs
+     *
+     * @param year
+     * @param month
+     * @param day
+     */
     public void agendaSetDate(int year, int month, int day) {
         displayDay = day;
         displayMonth = month;
         displayYear = year;
     }
 
+    /**
+     * sort by class (not yet tested)
+     *
+     * @param viewGroup
+     * @param inflater
+     */
+    public void agendaSortByClass(ViewGroup viewGroup, LayoutInflater inflater) { // made public for now but change back to private later
+        ArrayList<AgendaElement> AgendaElementClassSort = new ArrayList<>(AgendaElements); // it shouldnt, but make sure that this doesnt refer to agendaElements by reference and accidentally change agendaElements or smoething
+        // also consider moving this arraylist into the fields of the class because it would be lowkey a waste to rebuild it every time? then i wouldnt need to copy the agendaelements arraylist. but then i would need to also add to this arraylist every time (no need to worry about sorting tho)
+
+        Collections.sort(AgendaElementClassSort, AgendaElement.dateSort);
+        // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
+
+        viewGroup.removeAllViews();
+        for (AgendaElement i:AgendaElementClassSort) {
+            View newView = inflater.inflate(i.getMainResource(), null, false);
+            Log.i("VIEWHERE", i.getAgendaClass().toString());
+            viewGroup.addView(newView); // uhhh it does NOT repopulate the fields rn gotta figure that out lol
+        }
+    }
+
+    /**
+     * sort by date (not yet tested)
+     *
+     * @param viewGroup
+     * @param inflater
+     */
+    private void agendaSortByDate(ViewGroup viewGroup, LayoutInflater inflater) {
+        viewGroup.removeAllViews();
+        for (AgendaElement i:AgendaElements) {
+            View newView = inflater.inflate(i.getMainResource(), null, false);
+            viewGroup.addView(newView); // uhhh it does NOT repopulate the fields rn gotta figure that out lol
+            // it seems to be sorting the assignments by class fine tho.
+        }
+        // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
+    }
+
+    /**
+     *
+     * finds the view position in the linear layout based on date and time. rewrite this javadocs later ofc
+     *
+     * @param month
+     * @param day
+     * @param year
+     * @param hour
+     * @param minute
+     * @return
+     */
+    private int calculateViewPosition(int month, int day, int year, int hour, int minute) {
+        int index = 0;
+
+        while (index < AgendaElements.size() && year > AgendaElements.get(index).getAgendaYear()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month > AgendaElements.get(index).getAgendaMonth()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month == AgendaElements.get(index).getAgendaMonth() &&
+                day > AgendaElements.get(index).getAgendaDay()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month == AgendaElements.get(index).getAgendaMonth() &&
+                day == AgendaElements.get(index).getAgendaDay() && hour > AgendaElements.get(index).getAgendaHour()) index++;
+        while (index < AgendaElements.size() && year == AgendaElements.get(index).getAgendaYear() && month == AgendaElements.get(index).getAgendaMonth() &&
+                day == AgendaElements.get(index).getAgendaDay() && hour == AgendaElements.get(index).getAgendaHour() && minute > AgendaElements.get(index).getAgendaMinute()) index++;
+
+        return index;
+    }
 }
