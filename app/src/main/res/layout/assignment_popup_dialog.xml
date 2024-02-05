@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/assignment_grid">
+    android:id="@+id/assignment_grid"
+    android:background="@color/textbox_color">
 
     <EditText
         android:id="@+id/add_assignment_name"
@@ -47,6 +48,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:textCursorDrawable="@drawable/text_cursor"
+        app:backgroundTint="@color/textbox_select_color"
         android:id="@+id/add_assignment_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
