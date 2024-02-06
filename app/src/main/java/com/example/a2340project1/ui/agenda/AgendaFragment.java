@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -58,9 +59,9 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         dateOrClassSort = root.findViewById(R.id.date_class_sort);
         examOrAssignmentSort = root.findViewById(R.id.exam_assignment_sort);
 
-        examOrAssignmentSortList.add("Sort by all");
-        examOrAssignmentSortList.add("Sort by assignment");
-        examOrAssignmentSortList.add("Sort by exam");
+        examOrAssignmentSortList.add("Show all");
+        examOrAssignmentSortList.add("Show assignment only");
+        examOrAssignmentSortList.add("Show exams only");
 
         dateOrClassSortList.add("Sort by date");
         dateOrClassSortList.add("Sort by class");
@@ -92,6 +93,22 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         agendaAddButton.setOnClickListener(v -> {
             ELEMENT_HANDLER.agendaAddDialog(layoutList, getLayoutInflater(), this.getContext(),
                     this);
+        });
+
+        dateOrClassSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    ELEMENT_HANDLER.agendaSortByDate(layoutList, getLayoutInflater());
+                } else {
+                    ELEMENT_HANDLER.agendaSortByClass(layoutList, getLayoutInflater());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
         });
 
     }
