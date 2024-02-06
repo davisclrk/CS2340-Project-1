@@ -36,6 +36,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
     private int displayDay, displayMonth, displayYear;
     private ArrayList<AgendaElement> AgendaElements = new ArrayList<>();
+    private boolean sortByClass;
 
     /**
      * A version of the superclass showEditDialog method, but with extra variables for the
@@ -113,7 +114,6 @@ public class AgendaElementHandler extends DynamicElementHandler {
                         assignmentClass.getSelectedItemPosition());
 
                 int index = calculateViewPosition(newAssignment.getAgendaMonth(), newAssignment.getAgendaDay(), newAssignment.getAgendaYear(), newAssignment.getAgendaHour(), newAssignment.getAgendaMinute());
-                AgendaElements.add(index, newAssignment);
 
                 assignmentAddView(viewGroup, inflater, listener, newAssignment, context, index);
             }
@@ -238,8 +238,13 @@ public class AgendaElementHandler extends DynamicElementHandler {
         assignmentEditButton.setOnClickListener(view1 -> assignmentEditDialog(viewGroup,
                 inflater, listener, addedView, addedAssignment, context));
 
-        viewGroup.addView(addedView, index);
+        AgendaElements.add(index, addedAssignment);
 
+        if (sortByClass) {
+            agendaSortByClass(viewGroup, inflater); // this might have slight lag since its removing all views first then readding them instead of the original idea where u dont add it first to the view then resort it and u do it all together (the one documented in imsg)
+        } else {
+            viewGroup.addView(addedView, index);
+        }
     }
 
 
@@ -295,7 +300,6 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
                 int index = calculateViewPosition(newExam.getAgendaMonth(), newExam.getAgendaDay(),
                         newExam.getAgendaYear(), newExam.getAgendaHour(), newExam.getAgendaMinute());
-                AgendaElements.add(index, newExam);
 
                 examAddView(viewGroup, inflater, listener, newExam, context, index);
             }
@@ -416,7 +420,13 @@ public class AgendaElementHandler extends DynamicElementHandler {
         examEditButton.setOnClickListener(view1 -> examEditDialog(viewGroup,
                 inflater, listener, addedView, addedExam, context));
 
-        viewGroup.addView(addedView, index);
+        AgendaElements.add(index, addedExam);
+
+        if (sortByClass) {
+            agendaSortByClass(viewGroup, inflater);
+        } else {
+            viewGroup.addView(addedView, index);
+        }
     }
 
     /**
@@ -461,7 +471,8 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param viewGroup
      * @param inflater
      */
-    public void agendaSortByClass(ViewGroup viewGroup, LayoutInflater inflater) { // made public for now but change back to private later
+    public void agendaSortByClass(ViewGroup viewGroup, LayoutInflater inflater) {
+        sortByClass = true;
         ArrayList<AgendaElement> AgendaElementClassSort = new ArrayList<>(AgendaElements); // it shouldnt, but make sure that this doesnt refer to agendaElements by reference and accidentally change agendaElements or smoething
         // also consider moving this arraylist into the fields of the class because it would be lowkey a waste to rebuild it every time? then i wouldnt need to copy the agendaelements arraylist. but then i would need to also add to this arraylist every time (no need to worry about sorting tho)
 
@@ -512,6 +523,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param inflater
      */
     public void agendaSortByDate(ViewGroup viewGroup, LayoutInflater inflater) {
+        sortByClass = false;
         viewGroup.removeAllViews();
         for (AgendaElement i:AgendaElements) {
             View newView = inflater.inflate(i.getMainResource(), null, false);
