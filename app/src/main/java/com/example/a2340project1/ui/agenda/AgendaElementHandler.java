@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -194,7 +195,9 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
                 int index = AgendaElements.indexOf(editedAssignment);
                 AgendaElements.remove(index);
-                AgendaElements.add(index, new AssignmentElement(R.layout.assignment_grid, assignmentName.getText().toString(), assignmentClass.getText().toString(), assignmentDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedAssignment.getClassIndex()));
+                AgendaElements.add(index+1, new AssignmentElement(R.layout.assignment_grid, assignmentName.getText().toString(), assignmentClass.getText().toString(), assignmentDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedAssignment.getClassIndex()));
+                // i cant just add it at index + 1 actually i have to loop thru the whole array to find where the date should belong
+                // SO PLEASE FIX LATER
 
                 if (sortByClass) agendaSortByClass(viewGroup, inflater);
                 else agendaSortByDate(viewGroup, inflater);
@@ -258,11 +261,9 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
         AgendaElements.add(index, addedAssignment);
 
-        if (sortByClass) {
-            agendaSortByClass(viewGroup, inflater);
-        } else {
-            viewGroup.addView(addedView, index);
-        }
+        if (sortByClass) agendaSortByClass(viewGroup, inflater);
+        else viewGroup.addView(addedView, index);
+
     }
 
 
@@ -406,7 +407,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
                 int index = AgendaElements.indexOf(editedExam);
                 AgendaElements.remove(index);
-                AgendaElements.add(index, new ExamElement(R.layout.exam_grid, examName.getText().toString(), examClass.getText().toString(), examDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedExam.getClassIndex(), examLocation.getText().toString()));
+                AgendaElements.add(index+1, new ExamElement(R.layout.exam_grid, examName.getText().toString(), examClass.getText().toString(), examDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedExam.getClassIndex(), examLocation.getText().toString()));
                 if (sortByClass) agendaSortByClass(viewGroup, inflater);
                 else agendaSortByDate(viewGroup, inflater);
             }
@@ -459,11 +460,8 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
         AgendaElements.add(index, addedExam);
 
-        if (sortByClass) {
-            agendaSortByClass(viewGroup, inflater);
-        } else {
-            viewGroup.addView(addedView, index);
-        }
+        if (sortByClass) agendaSortByClass(viewGroup, inflater);
+        else viewGroup.addView(addedView, index);
     }
 
     /**
