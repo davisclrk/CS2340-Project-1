@@ -191,11 +191,10 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 assignmentEditButton.setOnClickListener(view1 -> assignmentEditDialog(viewGroup,
                         inflater, listener, editedView, editedAssignment, context));
 
-                int index = AgendaElements.indexOf(editedAssignment);
-                AgendaElements.remove(index);
-                AgendaElements.add(index+1, new AssignmentElement(R.layout.assignment_grid, assignmentName.getText().toString(), assignmentClass.getText().toString(), assignmentDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedAssignment.getClassIndex()));
-                // i cant just add it at index + 1 actually i have to loop thru the whole array to find where the date should belong
-                // SO PLEASE FIX LATER
+                AgendaElements.remove(editedAssignment);
+
+                int index = calculateViewPosition(displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute());
+                AgendaElements.add(index, new AssignmentElement(R.layout.assignment_grid, assignmentName.getText().toString(), assignmentClass.getText().toString(), assignmentDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedAssignment.getClassIndex()));
 
                 if (sortByClass) agendaSortByClass(viewGroup, inflater);
                 else agendaSortByDate(viewGroup, inflater);
@@ -395,14 +394,17 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 examClass.setText(classText);
                 examLocation.setText(locationText);
 
-                // allow edit button to be reclicked. DOES NOT WORK RN
+                // allow edit button to be reclicked. DOES NOT WORK RN.
+                // ACTUALLY LOWKEY I MIGHT NOT NEED THIS I COULD PROB GET RID OF IT.
                 ImageButton examEditButton = editedView.findViewById(R.id.exam_edit);
                 examEditButton.setOnClickListener(view1 -> examEditDialog(viewGroup,
                         inflater, listener, editedView, editedExam, context));
 
-                int index = AgendaElements.indexOf(editedExam);
-                AgendaElements.remove(index);
-                AgendaElements.add(index+1, new ExamElement(R.layout.exam_grid, examName.getText().toString(), examClass.getText().toString(), examDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedExam.getClassIndex(), examLocation.getText().toString()));
+                AgendaElements.remove(editedExam);
+
+                int index = calculateViewPosition(displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute());
+                AgendaElements.add(index, new ExamElement(R.layout.exam_grid, examName.getText().toString(), examClass.getText().toString(), examDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedExam.getClassIndex(), examLocation.getText().toString()));
+
                 if (sortByClass) agendaSortByClass(viewGroup, inflater);
                 else agendaSortByDate(viewGroup, inflater);
             }
