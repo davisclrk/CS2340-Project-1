@@ -3,12 +3,13 @@ package com.example.a2340project1.ui.agenda;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.util.Log;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -22,7 +23,6 @@ import com.example.a2340project1.ui.classes.ClassElementHandler;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Handles adding, removing, and editing dynamically added assignments and exams to the
@@ -33,6 +33,7 @@ import java.util.List;
  * @version 1.0
  */
 public class AgendaElementHandler extends DynamicElementHandler {
+    private LayoutInflater inflater;
 
     private int displayDay, displayMonth, displayYear;
     private ArrayList<AgendaElement> AgendaElements = new ArrayList<>();
@@ -92,7 +93,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
         Button datePicker = assignmentLayout.findViewById(R.id.assignment_date_picker);
         datePicker.setOnClickListener(v1 ->
-                showDatePickerDialog(listener, context, assignmentLayout, R.id.add_assignment_date));
+                showDatePickerDialog(listener, context, assignmentDate));
 
         // add button
         assignmentBuilder.setPositiveButton("OK", (dialog, which) -> {
@@ -159,7 +160,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
         Button datePicker = customLayout.findViewById(R.id.assignment_date_picker);
         datePicker.setOnClickListener(v1 ->
-                showDatePickerDialog(listener, context, customLayout, R.id.add_assignment_date));
+                showDatePickerDialog(listener, context, assignmentDateEdit));
 
         EditText assignmentName = view.findViewById(R.id.assignment_title);
         EditText assignmentClass = view.findViewById(R.id.assignment_class);
@@ -294,8 +295,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
         examClass.setAdapter(adapter);
 
         Button datePicker = examLayout.findViewById(R.id.exam_date_picker);
-        datePicker.setOnClickListener(v1 -> showDatePickerDialog(listener, context, examLayout,
-                R.id.add_exam_date));
+        datePicker.setOnClickListener(v1 -> showDatePickerDialog(listener, context, examDateAdd));
 
         // add button
         examBuilder.setPositiveButton("OK", (dialog, which) -> {
@@ -368,7 +368,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
         Button datePicker = customLayout.findViewById(R.id.exam_date_picker);
         datePicker.setOnClickListener(v1 ->
-                showDatePickerDialog(listener, context, customLayout, R.id.add_exam_date));
+                showDatePickerDialog(listener, context, examDateEdit));
 
         EditText examName = view.findViewById(R.id.exam_title);
         EditText examClass = view.findViewById(R.id.exam_class);
@@ -435,7 +435,8 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param context
      */
     private void examAddView(ViewGroup viewGroup, LayoutInflater inflater,
-                             DatePickerDialog.OnDateSetListener listener, ExamElement addedExam, Context context, int index) {
+                             DatePickerDialog.OnDateSetListener listener, ExamElement addedExam,
+                             Context context, int index) {
         View addedView = inflater.inflate(addedExam.getMainResource(), null, false);
         EditText examName = addedView.findViewById(R.id.exam_class);
         EditText examClass = addedView.findViewById(R.id.exam_title);
@@ -468,22 +469,31 @@ public class AgendaElementHandler extends DynamicElementHandler {
     /**
      * Displays dialog for calendar popup on "Pick Date" button click
      *
-     * @param listener  the onDateSet listener
-     * @param context   the context of the destination fragment
-     * @param dateBoxId
+     * @param listener the onDateSet listener
+     * @param context  the context of the destination fragment
      */
     private void showDatePickerDialog(DatePickerDialog.OnDateSetListener listener, Context context,
-                                      View dialog, int dateBoxId) {
+                                      EditText editedDate) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 context, listener,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         );
-        //datePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, "OK", (dialog1, which) -> {
+        DatePicker picker = datePickerDialog.getDatePicker();
+        datePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, "Set Date", (dialog, which) -> {
+            listener.onDateSet(picker, picker.getYear(),
+                    picker.getMonth(), picker.getDayOfMonth());
             String date = displayMonth + "/" + displayDay + "/" + displayYear;
-            ((EditText) dialog.findViewById(dateBoxId)).setText(date);
-        //});
+            editedDate.setText(date);
+        });
+
+//        Button okButton = datePickerDialog.getButton(datePickerDialog.BUTTON_POSITIVE);
+//        okButton.setOnClickListener(v -> {
+//            String date = displayMonth + "/" + displayDay + "/" + displayYear;
+//            editedDate.setText(date);
+//        });
+
         datePickerDialog.show();
 
     }
@@ -658,5 +668,13 @@ public class AgendaElementHandler extends DynamicElementHandler {
      */
     public ArrayList<AgendaElement> getAgendaElements() {
         return AgendaElements;
+    }
+
+    public LayoutInflater getInflater() {
+        return inflater;
+    }
+
+    public void setInflater(LayoutInflater inflater) {
+        this.inflater = inflater;
     }
 }
