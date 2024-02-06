@@ -102,7 +102,6 @@ public class AgendaElementHandler extends DynamicElementHandler {
             TimePicker assignmentTime =  assignmentLayout.findViewById(R.id.assignment_time_picker);
             String assignmentDeadline = getAssignmentDeadlineFromDialog(assignmentTime);
 
-
             if (assignmentClass.getSelectedItem() == null) {
                 Toast.makeText(context, "Make a class first!",
                         Toast.LENGTH_LONG).show();
@@ -167,11 +166,10 @@ public class AgendaElementHandler extends DynamicElementHandler {
         EditText assignmentClass = view.findViewById(R.id.assignment_class);
         EditText assignmentDate = view.findViewById(R.id.assignment_deadline);
 
-        String date = displayMonth + "/" + displayDay + "/" + displayYear;
         //set editing window to have same inputs as the selected view
         assignmentNameEdit.setText(assignmentName.getText());
         assignmentClassEdit.setSelection(editedAssignment.getClassIndex());
-        assignmentDateEdit.setText(date);
+        assignmentDateEdit.setText(editedAssignment.getAgendaDate());
 
         timePickerEdit.setHour(editedAssignment.getAgendaHour());
         timePickerEdit.setMinute(editedAssignment.getAgendaMinute());
@@ -217,10 +215,10 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
     /**
      *
-     * @return
+     * @return a formatted date and time
      */
     private String getAssignmentDeadlineFromDialog(TimePicker timePicker) {
-        String time, date, hour, minute, AMPM;
+        String time, hour, minute, AMPM;
         hour = (timePicker.getHour() > 12) ?
                 String.valueOf(timePicker.getHour() - 12) : String.valueOf(timePicker.getHour());
         minute = (timePicker.getMinute() < 10) ?
@@ -228,8 +226,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
         AMPM = (timePicker.getHour() < 12) ? "AM" : "PM";
         time = hour + ":" + minute + " " + AMPM;
 
-        date = displayMonth + "/" + displayDay + "/" + displayYear;
-
+        String date = displayMonth + "/" + displayDay + "/" + displayYear;
         return date + ", " + time;
     }
 
@@ -263,7 +260,6 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
         if (sortByClass) agendaSortByClass(viewGroup, inflater);
         else viewGroup.addView(addedView, index);
-
     }
 
 
@@ -376,11 +372,10 @@ public class AgendaElementHandler extends DynamicElementHandler {
         EditText examDate = view.findViewById(R.id.exam_time);
         EditText examLocation = view.findViewById(R.id.exam_location);
 
-        String date = displayMonth + "/" + displayDay + "/" + displayYear;
         //set editing window to have same inputs as the selected view
         examNameEdit.setText(examName.getText());
         examClassEdit.setSelection(editedExam.getClassIndex());
-        examDateEdit.setText(date);
+        examDateEdit.setText(editedExam.getAgendaDate());
         examLocationEdit.setText(examLocation.getText());
 
         timePickerEdit.setHour(editedExam.getAgendaHour());
@@ -485,12 +480,6 @@ public class AgendaElementHandler extends DynamicElementHandler {
             String date = displayMonth + "/" + displayDay + "/" + displayYear;
             editedDate.setText(date);
         });
-
-//        Button okButton = datePickerDialog.getButton(datePickerDialog.BUTTON_POSITIVE);
-//        okButton.setOnClickListener(v -> {
-//            String date = displayMonth + "/" + displayDay + "/" + displayYear;
-//            editedDate.setText(date);
-//        });
 
         datePickerDialog.show();
 

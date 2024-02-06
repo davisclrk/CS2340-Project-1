@@ -4,39 +4,41 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:background="@color/textbox_color">
+    android:background="@drawable/round_grey"
+    android:src="@drawable/round_grey"
+    >
+
 
 
     <ImageButton
         android:id="@+id/exam_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="11dp"
 
+        android:layout_marginEnd="20dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/exam_time"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.843"
+        app:layout_constraintVertical_bias="0.771"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <EditText
         android:id="@+id/exam_time"
-        android:textColor="#DD201B1B"
         android:layout_width="123dp"
-        android:layout_height="39dp"
+        android:layout_height="55dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="20dp"
+        android:textColor="#DD201B1B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/exam_class" />
 
     <EditText
         android:id="@+id/exam_class"
         android:layout_width="128dp"
-        android:layout_height="43dp"
+        android:layout_height="55dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
@@ -49,28 +51,27 @@ android:background="@color/textbox_color">
     <EditText
         android:id="@+id/exam_title"
         android:layout_width="125dp"
-        android:layout_height="46dp"
+        android:layout_height="55dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
         android:textColor="#DD201B1B"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/exam_location"
-        android:layout_width="151dp"
-        android:layout_height="38dp"
+        android:layout_width="121dp"
+        android:layout_height="55dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="20dp"
+        android:textColor="#DD201B1B"
         app:layout_constraintBottom_toTopOf="@+id/exam_class"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/exam_title"
-        android:textColor="#DD201B1B"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
