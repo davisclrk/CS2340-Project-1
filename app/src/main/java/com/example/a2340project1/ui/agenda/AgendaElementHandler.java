@@ -263,6 +263,9 @@ public class AgendaElementHandler extends DynamicElementHandler {
         View examLayout = inflater.inflate(R.layout.exam_popup_dialog, null);
         examBuilder.setView(examLayout);
 
+        EditText examDateAdd = examLayout.findViewById(R.id.add_exam_date);
+        examDateAdd.setEnabled(false);
+
         // need to add an editText with examDate string to show the calendar selection date.
         // wait dont call it examDate that string already exists below
 
@@ -362,7 +365,6 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
         timePickerEdit.setHour(editedExam.getAgendaHour());
         timePickerEdit.setMinute(editedExam.getAgendaMinute());
-
         // add a button
         builder.setPositiveButton("OK", (dialog, which) -> {
             String nameText, dateText, classText, locationText;
@@ -477,7 +479,6 @@ public class AgendaElementHandler extends DynamicElementHandler {
         // also consider moving this arraylist into the fields of the class because it would be lowkey a waste to rebuild it every time? then i wouldnt need to copy the agendaelements arraylist. but then i would need to also add to this arraylist every time (no need to worry about sorting tho)
 
         Collections.sort(AgendaElementClassSort, AgendaElement.dateSort);
-        // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
 
         viewGroup.removeAllViews();
         for (AgendaElement i:AgendaElementClassSort) {
