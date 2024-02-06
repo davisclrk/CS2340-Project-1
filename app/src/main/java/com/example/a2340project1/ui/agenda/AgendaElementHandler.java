@@ -189,17 +189,13 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 assignmentDate.setText(dateText);
                 assignmentClass.setText(classText);
 
-                ImageButton assignmentEditButton = editedView.findViewById(R.id.assignment_edit);
-                assignmentEditButton.setOnClickListener(view1 -> assignmentEditDialog(viewGroup,
-                        inflater, listener, editedView, editedAssignment, context));
-
                 AgendaElements.remove(editedAssignment);
 
                 int index = calculateViewPosition(displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute());
                 AgendaElements.add(index, new AssignmentElement(R.layout.assignment_grid, assignmentName.getText().toString(), assignmentClass.getText().toString(), assignmentDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedAssignment.getClassIndex()));
 
-                if (sortByClass) agendaSortByClass(viewGroup, inflater);
-                else agendaSortByDate(viewGroup, inflater);
+                if (sortByClass) agendaSortByClass(viewGroup, inflater, listener, context);
+                else agendaSortByDate(viewGroup, inflater, listener, context);
             }
 
         });
@@ -260,7 +256,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
         AgendaElements.add(index, addedAssignment);
 
-        if (sortByClass) agendaSortByClass(viewGroup, inflater);
+        if (sortByClass) agendaSortByClass(viewGroup, inflater, listener, context);
         else viewGroup.addView(addedView, index);
 
     }
@@ -399,19 +395,13 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 examClass.setText(classText);
                 examLocation.setText(locationText);
 
-                // allow edit button to be reclicked. DOES NOT WORK RN.
-                // ACTUALLY LOWKEY I MIGHT NOT NEED THIS I COULD PROB GET RID OF IT.
-                ImageButton examEditButton = editedView.findViewById(R.id.exam_edit);
-                examEditButton.setOnClickListener(view1 -> examEditDialog(viewGroup,
-                        inflater, listener, editedView, editedExam, context));
-
                 AgendaElements.remove(editedExam);
 
                 int index = calculateViewPosition(displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute());
                 AgendaElements.add(index, new ExamElement(R.layout.exam_grid, examName.getText().toString(), examClass.getText().toString(), examDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedExam.getClassIndex(), examLocation.getText().toString()));
 
-                if (sortByClass) agendaSortByClass(viewGroup, inflater);
-                else agendaSortByDate(viewGroup, inflater);
+                if (sortByClass) agendaSortByClass(viewGroup, inflater, listener, context);
+                else agendaSortByDate(viewGroup, inflater, listener, context);
             }
 
         });
@@ -455,14 +445,13 @@ public class AgendaElementHandler extends DynamicElementHandler {
         examLocation.setEnabled(false);
         examLocation.setText(addedExam.getLocation());
 
-        // still need to add edit functionality
         ImageButton examEditButton = addedView.findViewById(R.id.exam_edit);
         examEditButton.setOnClickListener(view1 -> examEditDialog(viewGroup,
                 inflater, listener, addedView, addedExam, context));
 
         AgendaElements.add(index, addedExam);
 
-        if (sortByClass) agendaSortByClass(viewGroup, inflater);
+        if (sortByClass) agendaSortByClass(viewGroup, inflater, listener, context);
         else viewGroup.addView(addedView, index);
     }
 
@@ -517,15 +506,15 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param viewGroup
      * @param inflater
      */
-    public void agendaSortByClass(ViewGroup viewGroup, LayoutInflater inflater) {
+    public void agendaSortByClass(ViewGroup viewGroup, LayoutInflater inflater, DatePickerDialog.OnDateSetListener listener, Context context) {
         sortByClass = true;
         ArrayList<AgendaElement> AgendaElementClassSorted = new ArrayList<>(AgendaElements);
 
         Collections.sort(AgendaElementClassSorted, AgendaElement.dateSort);
 
-        if (showElements == 0) showAll(viewGroup, inflater, AgendaElementClassSorted);
-        else if (showElements == 1) showAssignmentsOrExams(viewGroup, inflater, true, AgendaElementClassSorted);
-        else showAssignmentsOrExams(viewGroup, inflater, false, AgendaElementClassSorted);
+        if (showElements == 0) showAll(viewGroup, inflater, AgendaElementClassSorted, listener, context);
+        else if (showElements == 1) showAssignmentsOrExams(viewGroup, inflater, true, AgendaElementClassSorted, listener, context);
+        else showAssignmentsOrExams(viewGroup, inflater, false, AgendaElementClassSorted, listener, context);
     }
 
     /**
@@ -534,11 +523,11 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param viewGroup
      * @param inflater
      */
-    public void agendaSortByDate(ViewGroup viewGroup, LayoutInflater inflater) {
+    public void agendaSortByDate(ViewGroup viewGroup, LayoutInflater inflater, DatePickerDialog.OnDateSetListener listener, Context context) {
         sortByClass = false;
-        if (showElements == 0) showAll(viewGroup, inflater, AgendaElements);
-        else if (showElements == 1) showAssignmentsOrExams(viewGroup, inflater, true, AgendaElements);
-        else showAssignmentsOrExams(viewGroup, inflater, false, AgendaElements);
+        if (showElements == 0) showAll(viewGroup, inflater, AgendaElements, listener, context);
+        else if (showElements == 1) showAssignmentsOrExams(viewGroup, inflater, true, AgendaElements, listener, context);
+        else showAssignmentsOrExams(viewGroup, inflater, false, AgendaElements, listener, context);
     }
 
     /**
@@ -547,7 +536,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param viewGroup
      * @param inflater
      */
-    public void showAll(ViewGroup viewGroup, LayoutInflater inflater, ArrayList<AgendaElement> filterList) {
+    public void showAll(ViewGroup viewGroup, LayoutInflater inflater, ArrayList<AgendaElement> filterList, DatePickerDialog.OnDateSetListener listener, Context context) {
         showElements = 0;
 
         viewGroup.removeAllViews();
@@ -565,6 +554,10 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 assignmentClass.setText(i.getAgendaClass());
                 assignmentDeadline.setEnabled(false);
                 assignmentDeadline.setText(i.getAgendaDate());
+
+                ImageButton assignmentEditButton = newView.findViewById(R.id.assignment_edit);
+                assignmentEditButton.setOnClickListener(view1 -> assignmentEditDialog(viewGroup,
+                        inflater, listener, newView, (AssignmentElement) i, context));
             } else if (i instanceof ExamElement) {
                 EditText examName = newView.findViewById(R.id.exam_class);
                 EditText examClass = newView.findViewById(R.id.exam_title);
@@ -579,6 +572,10 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 examDate.setText(i.getAgendaDate());
                 examLocation.setEnabled(false);
                 examLocation.setText(((ExamElement) i).getLocation());
+
+                ImageButton examEditButton = newView.findViewById(R.id.exam_edit);
+                examEditButton.setOnClickListener(view1 -> examEditDialog(viewGroup,
+                        inflater, listener, newView, (ExamElement) i, context));
             }
             viewGroup.addView(newView);
         }
@@ -591,7 +588,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param inflater
      * @param showAssignment
      */
-    public void showAssignmentsOrExams(ViewGroup viewGroup, LayoutInflater inflater, boolean showAssignment, ArrayList<AgendaElement> filterList) {
+    public void showAssignmentsOrExams(ViewGroup viewGroup, LayoutInflater inflater, boolean showAssignment, ArrayList<AgendaElement> filterList, DatePickerDialog.OnDateSetListener listener, Context context) {
         if (showAssignment) showElements = 1;
         else showElements = 2;
 
@@ -611,6 +608,10 @@ public class AgendaElementHandler extends DynamicElementHandler {
                     assignmentDeadline.setEnabled(false);
                     assignmentDeadline.setText(i.getAgendaDate());
 
+                    ImageButton assignmentEditButton = newView.findViewById(R.id.assignment_edit);
+                    assignmentEditButton.setOnClickListener(view1 -> assignmentEditDialog(viewGroup,
+                            inflater, listener, newView, (AssignmentElement) i, context));
+
                     viewGroup.addView(newView);
                 }
             } else {
@@ -628,6 +629,10 @@ public class AgendaElementHandler extends DynamicElementHandler {
                     examDate.setText(i.getAgendaDate());
                     examLocation.setEnabled(false);
                     examLocation.setText(((ExamElement) i).getLocation());
+
+                    ImageButton examEditButton = newView.findViewById(R.id.exam_edit);
+                    examEditButton.setOnClickListener(view1 -> examEditDialog(viewGroup,
+                            inflater, listener, newView, (ExamElement) i, context));
 
                     viewGroup.addView(newView);
                 }
@@ -670,7 +675,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
         return AgendaElements;
     }
 
-    public LayoutInflater getInflater() {
+    public LayoutInflater getInflater() { // do we need this method?
         return inflater;
     }
 
