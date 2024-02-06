@@ -48,7 +48,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
      */
     public void agendaAddDialog(ViewGroup viewGroup, LayoutInflater inflater, Context context,
                                 DatePickerDialog.OnDateSetListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogBoxTheme);
 
         // set the custom layout
         View customLayout = inflater.inflate(R.layout.agenda_popup_dialog, null);
@@ -75,7 +75,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
     private void agendaAddAssignment(LayoutInflater inflater, Context context,
                                      DatePickerDialog.OnDateSetListener listener,
                                      ViewGroup viewGroup, AlertDialog agendaDialog) {
-        AlertDialog.Builder assignmentBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder assignmentBuilder = new AlertDialog.Builder(context, R.style.DialogBoxTheme);
         assignmentBuilder.setTitle("Add Assignment");
 
         View assignmentLayout = inflater.inflate(R.layout.assignment_popup_dialog, null);
@@ -136,7 +136,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
     // shouldnt this be private? we need proper encapsulation -- sure lol
     public void assignmentEditDialog(ViewGroup viewGroup, LayoutInflater inflater, DatePickerDialog.OnDateSetListener listener,
                                 View view, AssignmentElement editedAssignment, Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogBoxTheme);
         builder.setTitle("Edit Assignment");
 
         // set the custom layout
@@ -275,7 +275,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param viewGroup
      */
     private void agendaAddExam(LayoutInflater inflater, Context context, DatePickerDialog.OnDateSetListener listener, ViewGroup viewGroup, AlertDialog agendaDialog) {
-        AlertDialog.Builder examBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder examBuilder = new AlertDialog.Builder(context, R.style.DialogBoxTheme);
         examBuilder.setTitle("Add Exam");
 
         View examLayout = inflater.inflate(R.layout.exam_popup_dialog, null);

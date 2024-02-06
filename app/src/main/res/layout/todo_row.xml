@@ -26,6 +26,7 @@
         android:layout_margin="10dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/round_grey"
         android:src="@android:drawable/ic_menu_edit"
         app:layout_constraintStart_toEndOf="@+id/todo_edittext"
         app:layout_constraintTop_toTopOf="parent" />

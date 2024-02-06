@@ -65,7 +65,7 @@ public class ClassElementHandler extends DynamicElementHandler {
      * @see DynamicElementHandler#showEditDialog(String, ViewGroup, LayoutInflater, View, Context, int, int, int)  
      */
     public void classAddDialog(ViewGroup viewGroup, LayoutInflater inflater, Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogBoxTheme);
         builder.setTitle("Add Class");
 
         // set the custom layout
@@ -144,7 +144,7 @@ public class ClassElementHandler extends DynamicElementHandler {
      */
     public void classEditDialog(ViewGroup viewGroup, LayoutInflater inflater,
                                 View view, ClassElement editedClass, Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogBoxTheme);
         builder.setTitle("Edit Class");
 
         // set the custom layout
