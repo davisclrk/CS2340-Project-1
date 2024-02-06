@@ -36,7 +36,8 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
     private int displayDay, displayMonth, displayYear;
     private ArrayList<AgendaElement> AgendaElements = new ArrayList<>();
-    private boolean sortByClass;
+    private boolean sortByClass = false;
+    private int showElements = 0; // 0 == all, 1 == assignments, 2 == exams
 
     /**
      * A version of the superclass showEditDialog method, but with extra variables for the
@@ -141,6 +142,8 @@ public class AgendaElementHandler extends DynamicElementHandler {
         View customLayout = inflater.inflate(R.layout.assignment_popup_dialog, null);
         builder.setView(customLayout);
 
+        View editedView = inflater.inflate(editedAssignment.getMainResource(), null, false);
+
         EditText assignmentNameEdit = customLayout.findViewById(R.id.add_assignment_name);
         Spinner assignmentClassEdit = customLayout.findViewById(R.id.add_assignment_class_spinner);
         EditText assignmentDateEdit = customLayout.findViewById(R.id.add_assignment_date);
@@ -183,10 +186,24 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 assignmentName.setText(nameText);
                 assignmentDate.setText(dateText);
                 assignmentClass.setText(classText);
+
+                ImageButton assignmentEditButton = editedView.findViewById(R.id.assignment_edit);
+                assignmentEditButton.setOnClickListener(view1 -> assignmentEditDialog(viewGroup,
+                        inflater, listener, editedView, editedAssignment, context));
+
+                int index = AgendaElements.indexOf(editedAssignment);
+                AgendaElements.remove(index);
+                AgendaElements.add(index, new AssignmentElement(R.layout.assignment_grid, assignmentName.getText().toString(), assignmentClass.getText().toString(), assignmentDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedAssignment.getClassIndex()));
+
+                if (sortByClass) agendaSortByClass(viewGroup, inflater);
+                else agendaSortByDate(viewGroup, inflater);
             }
 
         });
-        builder.setNeutralButton("Delete", (dialog, which) -> viewGroup.removeView(view));
+        builder.setNeutralButton("Delete", (dialog, which) -> {
+            AgendaElements.remove(editedAssignment);
+            viewGroup.removeView(view);
+        });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         // create and show the alert dialog
@@ -241,7 +258,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
         AgendaElements.add(index, addedAssignment);
 
         if (sortByClass) {
-            agendaSortByClass(viewGroup, inflater); // this might have slight lag since its removing all views first then readding them instead of the original idea where u dont add it first to the view then resort it and u do it all together (the one documented in imsg)
+            agendaSortByClass(viewGroup, inflater);
         } else {
             viewGroup.addView(addedView, index);
         }
@@ -333,6 +350,8 @@ public class AgendaElementHandler extends DynamicElementHandler {
         View customLayout = inflater.inflate(R.layout.exam_popup_dialog, null);
         builder.setView(customLayout);
 
+        View editedView = inflater.inflate(editedExam.getMainResource(), null, false);
+
         EditText examNameEdit = customLayout.findViewById(R.id.add_exam_name);
         Spinner examClassEdit = customLayout.findViewById(R.id.add_exam_class_spinner);
         EditText examDateEdit = customLayout.findViewById(R.id.add_exam_date);
@@ -379,10 +398,25 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 examDate.setText(dateText);
                 examClass.setText(classText);
                 examLocation.setText(locationText);
+
+                // allow edit button to be reclicked. DOES NOT WORK RN
+                ImageButton examEditButton = editedView.findViewById(R.id.exam_edit);
+                examEditButton.setOnClickListener(view1 -> examEditDialog(viewGroup,
+                        inflater, listener, editedView, editedExam, context));
+
+                int index = AgendaElements.indexOf(editedExam);
+                AgendaElements.remove(index);
+                AgendaElements.add(index, new ExamElement(R.layout.exam_grid, examName.getText().toString(), examClass.getText().toString(), examDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedExam.getClassIndex(), examLocation.getText().toString()));
+                if (sortByClass) agendaSortByClass(viewGroup, inflater);
+                else agendaSortByDate(viewGroup, inflater);
             }
 
         });
-        builder.setNeutralButton("Delete", (dialog, which) -> viewGroup.removeView(view));
+        builder.setNeutralButton("Delete", (dialog, which) -> {
+            AgendaElements.remove(editedExam);
+            viewGroup.removeView(view);
+        });
+
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         // create and show the alert dialog
@@ -468,65 +502,46 @@ public class AgendaElementHandler extends DynamicElementHandler {
     }
 
     /**
-     * sort by class (not yet tested)
+     * sort by class
      *
      * @param viewGroup
      * @param inflater
      */
     public void agendaSortByClass(ViewGroup viewGroup, LayoutInflater inflater) {
         sortByClass = true;
-        ArrayList<AgendaElement> AgendaElementClassSort = new ArrayList<>(AgendaElements); // it shouldnt, but make sure that this doesnt refer to agendaElements by reference and accidentally change agendaElements or smoething
-        // also consider moving this arraylist into the fields of the class because it would be lowkey a waste to rebuild it every time? then i wouldnt need to copy the agendaelements arraylist. but then i would need to also add to this arraylist every time (no need to worry about sorting tho)
+        ArrayList<AgendaElement> AgendaElementClassSorted = new ArrayList<>(AgendaElements);
 
-        Collections.sort(AgendaElementClassSort, AgendaElement.dateSort);
+        Collections.sort(AgendaElementClassSorted, AgendaElement.dateSort);
 
-        viewGroup.removeAllViews();
-        for (AgendaElement i:AgendaElementClassSort) {
-            View newView = inflater.inflate(i.getMainResource(), null, false);
-
-            if (i instanceof AssignmentElement) {
-                EditText assignmentName = newView.findViewById(R.id.assignment_title);
-                EditText assignmentClass = newView.findViewById(R.id.assignment_class);
-                EditText assignmentDeadline = newView.findViewById(R.id.assignment_deadline);
-
-                assignmentName.setEnabled(false);
-                assignmentName.setText(i.getAgendaName());
-                assignmentClass.setEnabled(false);
-                assignmentClass.setText(i.getAgendaClass());
-                assignmentDeadline.setEnabled(false);
-                assignmentDeadline.setText(i.getAgendaDate());
-
-                viewGroup.addView(newView);
-            } else if (i instanceof ExamElement){
-                EditText examName = newView.findViewById(R.id.exam_class);
-                EditText examClass = newView.findViewById(R.id.exam_title);
-                EditText examDate = newView.findViewById(R.id.exam_time);
-                EditText examLocation = newView.findViewById(R.id.exam_location);
-
-                examName.setEnabled(false);
-                examName.setText(i.getAgendaName());
-                examClass.setEnabled(false);
-                examClass.setText(i.getAgendaClass());
-                examDate.setEnabled(false);
-                examDate.setText(i.getAgendaDate());
-                examLocation.setEnabled(false);
-                examLocation.setText(((ExamElement) i).getLocation());
-
-                viewGroup.addView(newView);
-            }
-        }
+        if (showElements == 0) showAll(viewGroup, inflater, AgendaElementClassSorted);
+        else if (showElements == 1) showAssignmentsOrExams(viewGroup, inflater, true, AgendaElementClassSorted);
+        else showAssignmentsOrExams(viewGroup, inflater, false, AgendaElementClassSorted);
     }
 
     /**
-     * sort by date (not yet tested)
+     * sort by date
      *
      * @param viewGroup
      * @param inflater
      */
     public void agendaSortByDate(ViewGroup viewGroup, LayoutInflater inflater) {
         sortByClass = false;
+        if (showElements == 0) showAll(viewGroup, inflater, AgendaElements);
+        else if (showElements == 1) showAssignmentsOrExams(viewGroup, inflater, true, AgendaElements);
+        else showAssignmentsOrExams(viewGroup, inflater, false, AgendaElements);
+    }
+
+    /**
+     * jdocs
+     *
+     * @param viewGroup
+     * @param inflater
+     */
+    public void showAll(ViewGroup viewGroup, LayoutInflater inflater, ArrayList<AgendaElement> filterList) {
+        showElements = 0;
+
         viewGroup.removeAllViews();
-        for (AgendaElement i:AgendaElements) {
+        for (AgendaElement i:filterList) {
             View newView = inflater.inflate(i.getMainResource(), null, false);
 
             if (i instanceof AssignmentElement) {
@@ -540,9 +555,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 assignmentClass.setText(i.getAgendaClass());
                 assignmentDeadline.setEnabled(false);
                 assignmentDeadline.setText(i.getAgendaDate());
-
-                viewGroup.addView(newView);
-            } else if (i instanceof ExamElement){
+            } else if (i instanceof ExamElement) {
                 EditText examName = newView.findViewById(R.id.exam_class);
                 EditText examClass = newView.findViewById(R.id.exam_title);
                 EditText examDate = newView.findViewById(R.id.exam_time);
@@ -556,8 +569,58 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 examDate.setText(i.getAgendaDate());
                 examLocation.setEnabled(false);
                 examLocation.setText(((ExamElement) i).getLocation());
+            }
+            viewGroup.addView(newView);
+        }
+    }
 
-                viewGroup.addView(newView);
+    /**
+     * docs
+     *
+     * @param viewGroup
+     * @param inflater
+     * @param showAssignment
+     */
+    public void showAssignmentsOrExams(ViewGroup viewGroup, LayoutInflater inflater, boolean showAssignment, ArrayList<AgendaElement> filterList) {
+        if (showAssignment) showElements = 1;
+        else showElements = 2;
+
+        viewGroup.removeAllViews();
+        for (AgendaElement i:filterList) {
+            View newView = inflater.inflate(i.getMainResource(), null, false);
+            if (showAssignment) {
+                if (i instanceof AssignmentElement) {
+                    EditText assignmentName = newView.findViewById(R.id.assignment_title);
+                    EditText assignmentClass = newView.findViewById(R.id.assignment_class);
+                    EditText assignmentDeadline = newView.findViewById(R.id.assignment_deadline);
+
+                    assignmentName.setEnabled(false);
+                    assignmentName.setText(i.getAgendaName());
+                    assignmentClass.setEnabled(false);
+                    assignmentClass.setText(i.getAgendaClass());
+                    assignmentDeadline.setEnabled(false);
+                    assignmentDeadline.setText(i.getAgendaDate());
+
+                    viewGroup.addView(newView);
+                }
+            } else {
+                if (i instanceof ExamElement) {
+                    EditText examName = newView.findViewById(R.id.exam_class);
+                    EditText examClass = newView.findViewById(R.id.exam_title);
+                    EditText examDate = newView.findViewById(R.id.exam_time);
+                    EditText examLocation = newView.findViewById(R.id.exam_location);
+
+                    examName.setEnabled(false);
+                    examName.setText(i.getAgendaName());
+                    examClass.setEnabled(false);
+                    examClass.setText(i.getAgendaClass());
+                    examDate.setEnabled(false);
+                    examDate.setText(i.getAgendaDate());
+                    examLocation.setEnabled(false);
+                    examLocation.setText(((ExamElement) i).getLocation());
+
+                    viewGroup.addView(newView);
+                }
             }
         }
     }
@@ -586,5 +649,14 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 day == AgendaElements.get(index).getAgendaDay() && hour == AgendaElements.get(index).getAgendaHour() && minute > AgendaElements.get(index).getAgendaMinute()) index++;
 
         return index;
+    }
+
+    /**
+     * Getter for AgendaElements ArrayList
+     *
+     * @return AgendaElements
+     */
+    public ArrayList<AgendaElement> getAgendaElements() {
+        return AgendaElements;
     }
 }

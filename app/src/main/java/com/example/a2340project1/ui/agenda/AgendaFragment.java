@@ -95,17 +95,26 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         dateOrClassSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
+                if (position == 0) { // sort by date
                     ELEMENT_HANDLER.agendaSortByDate(layoutList, getLayoutInflater());
-                } else {
+                } else { // sort by class
                     ELEMENT_HANDLER.agendaSortByClass(layoutList, getLayoutInflater());
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                return;
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        examOrAssignmentSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) ELEMENT_HANDLER.showAll(layoutList, getLayoutInflater(), ELEMENT_HANDLER.getAgendaElements());
+                else ELEMENT_HANDLER.showAssignmentsOrExams(layoutList, getLayoutInflater(), position == 1, ELEMENT_HANDLER.getAgendaElements());
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
     }

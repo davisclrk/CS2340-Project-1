@@ -92,7 +92,10 @@ public class ClassElementHandler extends DynamicElementHandler {
                 minute = timePicker.getMinute();
 
                 boolean classExists = false;
-                for (String i:classNames) if (i.equals(nameText)) classExists = true;
+                for (String i:classNames) if (i.equals(nameText)) {
+                    classExists = true;
+                    break;
+                }
 
                 if (!classExists) {
                     ClassElement newClass = new ClassElement(R.layout.class_grid,
@@ -183,8 +186,14 @@ public class ClassElementHandler extends DynamicElementHandler {
                 instructorText = classInstructorEdit.getText().toString();
 
                 boolean classExists = false;
-                for (String i:classNames) if (i.equals(nameText)) classExists = true;
+                for (String i:classNames) if (i.equals(nameText)) {
+                    classExists = true;
+                    break;
+                }
 
+                // i just realized that if ur trying to edit a class which already has details and
+                // ur not trying to change the name the classexists case will still trigger and it wont let u edit
+                // so fix that
                 if (!classExists) {
                     className.setText(nameText);
                     classDate.setText(dateText);
