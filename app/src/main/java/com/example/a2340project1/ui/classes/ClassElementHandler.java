@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.a2340project1.R;
 import com.example.a2340project1.ui.DynamicElement;
@@ -90,11 +91,20 @@ public class ClassElementHandler extends DynamicElementHandler {
                 hour = timePicker.getHour();
                 minute = timePicker.getMinute();
 
-                ClassElement newClass = new ClassElement(R.layout.class_grid,
-                        nameText, dateText, instructorText, daysChecked, hour, minute);
+                boolean classExists = false;
+                for (String i:classNames) if (i.equals(nameText)) classExists = true;
 
-                addView(viewGroup, inflater, newClass, context);
-                classNames.add(nameText);
+                if (!classExists) {
+                    ClassElement newClass = new ClassElement(R.layout.class_grid,
+                            nameText, dateText, instructorText, daysChecked, hour, minute);
+
+                    addView(viewGroup, inflater, newClass, context);
+                    classNames.add(nameText);
+                } else {
+                    Toast.makeText(context, "Class already exists!", Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+
             }
 
         });
@@ -147,6 +157,8 @@ public class ClassElementHandler extends DynamicElementHandler {
         EditText classDate = view.findViewById(R.id.class_time);
         EditText classInstructor = view.findViewById(R.id.class_instructor);
 
+        int index = classNames.indexOf(className.getText().toString());
+
         //set editing window to have same inputs as the selected view
         classNameEdit.setText(className.getText());
         classInstructorEdit.setText(classInstructor.getText());
@@ -170,9 +182,19 @@ public class ClassElementHandler extends DynamicElementHandler {
                 dateText = getClassDateFromDialog(dayCheckEdit, timePickerEdit);
                 instructorText = classInstructorEdit.getText().toString();
 
-                className.setText(nameText);
-                classDate.setText(dateText);
-                classInstructor.setText(instructorText);
+                boolean classExists = false;
+                for (String i:classNames) if (i.equals(nameText)) classExists = true;
+
+                if (!classExists) {
+                    className.setText(nameText);
+                    classDate.setText(dateText);
+                    classInstructor.setText(instructorText);
+                    classNames.remove(index);
+                    classNames.add(index, className.getText().toString());
+                } else {
+                    Toast.makeText(context, "Class already exists!", Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
             }
 
         });
