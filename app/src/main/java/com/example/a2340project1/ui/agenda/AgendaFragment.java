@@ -60,8 +60,8 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         examOrAssignmentSort = root.findViewById(R.id.exam_assignment_sort);
 
         examOrAssignmentSortList.add("Show all");
-        examOrAssignmentSortList.add("Show assignment only");
-        examOrAssignmentSortList.add("Show exams only");
+        examOrAssignmentSortList.add("Show assignments");
+        examOrAssignmentSortList.add("Show exams");
 
         dateOrClassSortList.add("Sort by date");
         dateOrClassSortList.add("Sort by class");
@@ -82,9 +82,6 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
 
         return root;
     }
-
-    // NOTE: there should be 2 filters at the top, one for showing exam/assignment/both and one for sorting by date/class
-    // ngl idk how to do the exam/assignment/both filter
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
