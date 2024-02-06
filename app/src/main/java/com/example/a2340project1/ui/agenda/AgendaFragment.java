@@ -52,6 +52,8 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         AgendaViewModel agendaViewModel =
                 new ViewModelProvider(this).get(AgendaViewModel.class);
 
+        ELEMENT_HANDLER.setInflater(getLayoutInflater());
+
         binding = FragmentAgendaBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -66,7 +68,6 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         dateOrClassSortList.add("Sort by date");
         dateOrClassSortList.add("Sort by class");
 
-
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this.getContext(),
                 android.R.layout.simple_spinner_dropdown_item, dateOrClassSortList);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,7 +79,6 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         examOrAssignmentSort.setAdapter(adapter2);
         examOrAssignmentSort.setSelection(0);
-
 
         return root;
     }
@@ -128,5 +128,6 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         ELEMENT_HANDLER.agendaSetDate(year, month+1, dayOfMonth);
+        //
     }
 }
