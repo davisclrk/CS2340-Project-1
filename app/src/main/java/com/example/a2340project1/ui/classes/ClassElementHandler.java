@@ -186,14 +186,11 @@ public class ClassElementHandler extends DynamicElementHandler {
                 instructorText = classInstructorEdit.getText().toString();
 
                 boolean classExists = false;
-                for (String i:classNames) if (i.equals(nameText)) {
+                for (int i = 0;i < classNames.size(); i++) if (classNames.get(i).equals(nameText) && i != index) {
                     classExists = true;
                     break;
                 }
 
-                // i just realized that if ur trying to edit a class which already has details and
-                // ur not trying to change the name the classexists case will still trigger and it wont let u edit
-                // so fix that
                 if (!classExists) {
                     className.setText(nameText);
                     classDate.setText(dateText);
