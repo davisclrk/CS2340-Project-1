@@ -19,14 +19,13 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_task_text"
-        app:layout_constraintVertical_bias="0.045" />
+        app:layout_constraintVertical_bias="0.266" />
 
     <EditText
-        android:textCursorDrawable="@drawable/text_cursor"
         android:id="@+id/add_task_text"
         android:layout_width="267dp"
         android:layout_height="47dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="72dp"
         android:background="@drawable/round_grey"
         android:ems="10"
         android:fontFamily="sans-serif"
@@ -35,6 +34,7 @@
         android:padding="6dp"
         android:textColor="#DDAAAAAA"
         android:textColorHint="#DDAAAAAA"
+        android:textCursorDrawable="@drawable/text_cursor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
