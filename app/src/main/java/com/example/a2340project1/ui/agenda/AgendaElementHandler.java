@@ -35,7 +35,7 @@ import java.util.List;
 public class AgendaElementHandler extends DynamicElementHandler {
 
     private int displayDay, displayMonth, displayYear;
-    private List<AgendaElement> AgendaElements = new ArrayList<>();
+    private ArrayList<AgendaElement> AgendaElements = new ArrayList<>();
 
     /**
      * A version of the superclass showEditDialog method, but with extra variables for the
@@ -471,9 +471,37 @@ public class AgendaElementHandler extends DynamicElementHandler {
         viewGroup.removeAllViews();
         for (AgendaElement i:AgendaElementClassSort) {
             View newView = inflater.inflate(i.getMainResource(), null, false);
-            Log.i("VIEWHERE", i.getAgendaClass().toString());
-            viewGroup.addView(newView); // uhhh it does NOT repopulate the fields rn gotta figure that out lol
-            // it seems to be sorting the assignments by class fine tho.
+
+            if (i instanceof AssignmentElement) {
+                EditText assignmentName = newView.findViewById(R.id.assignment_title);
+                EditText assignmentClass = newView.findViewById(R.id.assignment_class);
+                EditText assignmentDeadline = newView.findViewById(R.id.assignment_deadline);
+
+                assignmentName.setEnabled(false);
+                assignmentName.setText(i.getAgendaName());
+                assignmentClass.setEnabled(false);
+                assignmentClass.setText(i.getAgendaClass());
+                assignmentDeadline.setEnabled(false);
+                assignmentDeadline.setText(i.getAgendaDate());
+
+                viewGroup.addView(newView);
+            } else if (i instanceof ExamElement){
+                EditText examName = newView.findViewById(R.id.exam_class);
+                EditText examClass = newView.findViewById(R.id.exam_title);
+                EditText examDate = newView.findViewById(R.id.exam_time);
+                EditText examLocation = newView.findViewById(R.id.exam_location);
+
+                examName.setEnabled(false);
+                examName.setText(i.getAgendaName());
+                examClass.setEnabled(false);
+                examClass.setText(i.getAgendaClass());
+                examDate.setEnabled(false);
+                examDate.setText(i.getAgendaDate());
+                examLocation.setEnabled(false);
+                examLocation.setText(((ExamElement) i).getLocation());
+
+                viewGroup.addView(newView);
+            }
         }
     }
 
@@ -483,13 +511,42 @@ public class AgendaElementHandler extends DynamicElementHandler {
      * @param viewGroup
      * @param inflater
      */
-    private void agendaSortByDate(ViewGroup viewGroup, LayoutInflater inflater) {
+    public void agendaSortByDate(ViewGroup viewGroup, LayoutInflater inflater) {
         viewGroup.removeAllViews();
         for (AgendaElement i:AgendaElements) {
             View newView = inflater.inflate(i.getMainResource(), null, false);
-            viewGroup.addView(newView); // uhhh it does NOT repopulate the fields rn gotta figure that out lol
+
+            if (i instanceof AssignmentElement) {
+                EditText assignmentName = newView.findViewById(R.id.assignment_title);
+                EditText assignmentClass = newView.findViewById(R.id.assignment_class);
+                EditText assignmentDeadline = newView.findViewById(R.id.assignment_deadline);
+
+                assignmentName.setEnabled(false);
+                assignmentName.setText(i.getAgendaName());
+                assignmentClass.setEnabled(false);
+                assignmentClass.setText(i.getAgendaClass());
+                assignmentDeadline.setEnabled(false);
+                assignmentDeadline.setText(i.getAgendaDate());
+
+                viewGroup.addView(newView);
+            } else if (i instanceof ExamElement){
+                EditText examName = newView.findViewById(R.id.exam_class);
+                EditText examClass = newView.findViewById(R.id.exam_title);
+                EditText examDate = newView.findViewById(R.id.exam_time);
+                EditText examLocation = newView.findViewById(R.id.exam_location);
+
+                examName.setEnabled(false);
+                examName.setText(i.getAgendaName());
+                examClass.setEnabled(false);
+                examClass.setText(i.getAgendaClass());
+                examDate.setEnabled(false);
+                examDate.setText(i.getAgendaDate());
+                examLocation.setEnabled(false);
+                examLocation.setText(((ExamElement) i).getLocation());
+
+                viewGroup.addView(newView);
+            }
         }
-        // HAS NOT BEEN TESTED YET. UNSURE IF FUNCTIONAL.
     }
 
     /**
