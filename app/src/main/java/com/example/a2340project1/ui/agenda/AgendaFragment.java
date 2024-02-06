@@ -86,9 +86,12 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Context context = this.getContext();
+        DatePickerDialog.OnDateSetListener listener = this;
+
         FloatingActionButton agendaAddButton = view.findViewById(R.id.add_agenda_button);
         agendaAddButton.setOnClickListener(v -> {
-            ELEMENT_HANDLER.agendaAddDialog(layoutList, getLayoutInflater(), this.getContext(),
+            ELEMENT_HANDLER.agendaAddDialog(layoutList, getLayoutInflater(), context,
                     this);
         });
 
@@ -96,9 +99,9 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) { // sort by date
-                    ELEMENT_HANDLER.agendaSortByDate(layoutList, getLayoutInflater());
+                    ELEMENT_HANDLER.agendaSortByDate(layoutList, getLayoutInflater(), listener, context);
                 } else { // sort by class
-                    ELEMENT_HANDLER.agendaSortByClass(layoutList, getLayoutInflater());
+                    ELEMENT_HANDLER.agendaSortByClass(layoutList, getLayoutInflater(), listener, context);
                 }
             }
 
@@ -109,8 +112,8 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         examOrAssignmentSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) ELEMENT_HANDLER.showAll(layoutList, getLayoutInflater(), ELEMENT_HANDLER.getAgendaElements());
-                else ELEMENT_HANDLER.showAssignmentsOrExams(layoutList, getLayoutInflater(), position == 1, ELEMENT_HANDLER.getAgendaElements());
+                if (position == 0) ELEMENT_HANDLER.showAll(layoutList, getLayoutInflater(), ELEMENT_HANDLER.getAgendaElements(), listener, context);
+                else ELEMENT_HANDLER.showAssignmentsOrExams(layoutList, getLayoutInflater(), position == 1, ELEMENT_HANDLER.getAgendaElements(), listener, context);
             }
 
             @Override
