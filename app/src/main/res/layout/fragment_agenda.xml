@@ -8,29 +8,30 @@
 
     <ScrollView
         android:id="@+id/scrollView3"
-        android:layout_width="376dp"
-        android:layout_height="657dp"
+        android:layout_width="374dp"
+        android:layout_height="625dp"
         android:background="@color/page_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.081">
+        app:layout_constraintVertical_bias="0.382">
 
         <LinearLayout
             android:id="@+id/agenda_layout"
             android:layout_width="409dp"
             android:layout_height="731dp"
             android:background="@color/page_background"
+            android:divider="@drawable/empty_tall_divider"
             android:orientation="vertical"
-
+            android:showDividers="middle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"/>
+            app:layout_constraintVertical_bias="1.0" />
     </ScrollView>
 
     <Spinner
