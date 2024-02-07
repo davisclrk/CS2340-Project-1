@@ -3,7 +3,12 @@ package com.example.a2340project1.ui.agenda;
 import com.example.a2340project1.ui.DynamicElement;
 
 import java.util.Comparator;
-
+/**
+ * Stores data about agenda elements dynamically added to the agenda fragment.
+ *
+ * @author davisclrk
+ * @version 1.0
+ */
 public class AgendaElement extends DynamicElement {
     private String agendaName;
     private String agendaDate;
@@ -97,6 +102,9 @@ public class AgendaElement extends DynamicElement {
         return classIndex;
     }
 
+    /**
+     * Compares AgendaElements to each other based on class name in alphabetical order
+     */
     public static Comparator<AgendaElement> dateSort = new Comparator<AgendaElement>() {
         @Override
         public int compare(AgendaElement o1, AgendaElement o2) {

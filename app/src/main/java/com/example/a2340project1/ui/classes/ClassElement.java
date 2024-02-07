@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class ClassElement extends DynamicElement {
     private String className;
-    private String classDate;//make this formatted to date
+    private String classDate;
     private String instructor;
     private ArrayList<Integer> daysChecked;
     private int hour;

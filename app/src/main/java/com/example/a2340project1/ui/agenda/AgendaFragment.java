@@ -98,11 +98,8 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
         dateOrClassSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) { // sort by date
-                    ELEMENT_HANDLER.agendaSortByDate(layoutList, getLayoutInflater(), listener, context);
-                } else { // sort by class
-                    ELEMENT_HANDLER.agendaSortByClass(layoutList, getLayoutInflater(), listener, context);
-                }
+                if (position == 0) ELEMENT_HANDLER.agendaSortByDate(layoutList, getLayoutInflater(), listener, context);
+                else ELEMENT_HANDLER.agendaSortByClass(layoutList, getLayoutInflater(), listener, context);
             }
 
             @Override
@@ -131,6 +128,5 @@ public class AgendaFragment extends Fragment implements DatePickerDialog.OnDateS
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         ELEMENT_HANDLER.agendaSetDate(year, month+1, dayOfMonth);
-        //
     }
 }

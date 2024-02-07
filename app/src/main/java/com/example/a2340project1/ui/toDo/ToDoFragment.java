@@ -27,7 +27,6 @@ public class ToDoFragment extends Fragment {
         binding = FragmentToDoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //destination for added elements
         layoutList = root.findViewById(R.id.todo_linearlayout);
 
         return root;
@@ -53,7 +52,7 @@ public class ToDoFragment extends Fragment {
         }
 
         ToDoElement task = new ToDoElement(R.layout.todo_row, inputTask.getText().toString());
-        ELEMENT_HANDLER.addView(layoutList, getLayoutInflater(), task, this.getContext());
+        ELEMENT_HANDLER.todoAddView(layoutList, getLayoutInflater(), task, this.getContext());
         inputTask.getText().clear();
     }
 }
