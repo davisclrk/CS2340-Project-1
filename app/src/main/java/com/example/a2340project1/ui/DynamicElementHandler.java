@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.example.a2340project1.R;
+
 /**
  * Handles adding, removing, and editing dynamically added views. Adding is
  * implemented through a method called in the destination fragment. Editing and
@@ -48,7 +50,7 @@ public class DynamicElementHandler {
     public void showEditDialog(String title, ViewGroup viewGroup, LayoutInflater inflater,
                                View view, Context context, int dialogLayout, int editText,
                                int changedText) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogBoxTheme);
         builder.setTitle(title);
 
         // set the custom layout
