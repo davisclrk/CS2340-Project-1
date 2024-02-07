@@ -13,10 +13,10 @@
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">#FF000000</item>
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">#FF000000</item>
     </style>
 </resources>
