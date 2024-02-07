@@ -63,7 +63,6 @@ public class DynamicElementHandler {
             if (!newText.equals("")) {
                 taskText.setText(newText);
             }
-            //save to preferences method here?
         });
         builder.setNeutralButton("Delete", (dialog, which) -> viewGroup.removeView(view));
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());

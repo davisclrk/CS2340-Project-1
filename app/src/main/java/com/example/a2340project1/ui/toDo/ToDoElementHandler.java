@@ -28,7 +28,7 @@ public class ToDoElementHandler extends DynamicElementHandler {
      * @param task the task being added
      * @param context the context of the destination fragment
      */
-    public void addView(ViewGroup viewGroup, LayoutInflater inflater, ToDoElement task, Context context) {
+    public void todoAddView(ViewGroup viewGroup, LayoutInflater inflater, ToDoElement task, Context context) {
 
         View addedView = inflater.inflate(task.getMainResource(), null, false);
 
@@ -40,7 +40,7 @@ public class ToDoElementHandler extends DynamicElementHandler {
         taskText.setEnabled(false);
 
         imageEdit.setOnClickListener(v -> {
-            taskEditDialog("Edit Task", viewGroup, inflater, addedView, context);//add later
+            taskEditDialog("Edit Task", viewGroup, inflater, addedView, context);
         });
 
         viewGroup.addView(addedView);
@@ -52,7 +52,7 @@ public class ToDoElementHandler extends DynamicElementHandler {
      *
      * @see DynamicElementHandler#showEditDialog(String, ViewGroup, LayoutInflater, View, Context, int, int, int)
      */
-    public void taskEditDialog(String title, ViewGroup viewGroup, LayoutInflater inflater,
+    private void taskEditDialog(String title, ViewGroup viewGroup, LayoutInflater inflater,
                                View view, Context context) {
         super.showEditDialog(title, viewGroup, inflater, view, context, R.layout.todo_dialog,
                 R.id.dialogue_edit_text, R.id.todo_edittext);

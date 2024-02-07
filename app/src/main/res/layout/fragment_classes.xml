@@ -7,7 +7,7 @@
     tools:context=".ui.classes.ClassesFragment">
 
     <ScrollView
-        android:id="@+id/scrollView3"
+        android:id="@+id/class_scrollview"
         android:layout_width="376dp"
         android:layout_height="657dp"
         android:background="@color/page_background"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="92dp"
         android:background="@drawable/button_shape"
-        android:text="Add Class"
+        android:text="@string/add_class"
         android:textColor="@color/button_text_color"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"

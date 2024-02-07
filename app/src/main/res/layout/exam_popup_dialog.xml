@@ -7,7 +7,6 @@
     android:id="@+id/exam_grid"
     android:theme="@style/DialogBoxTheme">
 
-
     <EditText
         android:id="@+id/add_exam_name"
         android:layout_width="wrap_content"

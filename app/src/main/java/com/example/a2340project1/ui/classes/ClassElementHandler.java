@@ -31,34 +31,6 @@ public class ClassElementHandler extends DynamicElementHandler {
     private static final ArrayList<String> classNames = new ArrayList<>();
 
     /**
-     * A version of the superclass method of the same name. Adds a class element to the
-     * context.
-     *
-     * @see DynamicElementHandler#addView(ViewGroup, LayoutInflater, DynamicElement)
-     */
-    public void addView(ViewGroup viewGroup, LayoutInflater inflater, ClassElement addedClass,
-                        Context context) {
-
-        View addedView = inflater.inflate(addedClass.getMainResource(), null, false);
-        EditText className = addedView.findViewById(R.id.class_name);
-        EditText classDate = addedView.findViewById(R.id.class_time);
-        EditText classInstructor = addedView.findViewById(R.id.class_instructor);
-
-        className.setEnabled(false);
-        className.setText(addedClass.getClassName());
-        classDate.setEnabled(false);
-        classDate.setText(addedClass.getClassDate());
-        classInstructor.setEnabled(false);
-        classInstructor.setText(addedClass.getInstructor());
-
-        ImageButton classEditButton = addedView.findViewById(R.id.edit_class);
-        classEditButton.setOnClickListener(view1 -> classEditDialog(viewGroup,
-                inflater, addedView, addedClass, context));
-
-        viewGroup.addView(addedView);
-    }
-
-    /**
      * A version of the superclass showEditDialog method, but with extra variables for the
      * different input fields. Also adds a new class to the context.
      *
@@ -91,6 +63,7 @@ public class ClassElementHandler extends DynamicElementHandler {
                 hour = timePicker.getHour();
                 minute = timePicker.getMinute();
 
+                // check for duplicate class names
                 boolean classExists = false;
                 for (String i:classNames) if (i.equals(nameText)) {
                     classExists = true;
@@ -101,7 +74,7 @@ public class ClassElementHandler extends DynamicElementHandler {
                     ClassElement newClass = new ClassElement(R.layout.class_grid,
                             nameText, dateText, instructorText, daysChecked, hour, minute);
 
-                    addView(viewGroup, inflater, newClass, context);
+                    classAddView(viewGroup, inflater, newClass, context);
                     classNames.add(nameText);
                 } else {
                     Toast.makeText(context, "Class already exists!", Toast.LENGTH_LONG).show();
@@ -116,6 +89,34 @@ public class ClassElementHandler extends DynamicElementHandler {
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /**
+     * A version of the superclass method of addView. Adds a class element to the
+     * context.
+     *
+     * @see DynamicElementHandler#addView(ViewGroup, LayoutInflater, DynamicElement)
+     */
+    private void classAddView(ViewGroup viewGroup, LayoutInflater inflater, ClassElement addedClass,
+                         Context context) {
+
+        View addedView = inflater.inflate(addedClass.getMainResource(), null, false);
+        EditText className = addedView.findViewById(R.id.class_name);
+        EditText classDate = addedView.findViewById(R.id.class_time);
+        EditText classInstructor = addedView.findViewById(R.id.class_instructor);
+
+        className.setEnabled(false);
+        className.setText(addedClass.getClassName());
+        classDate.setEnabled(false);
+        classDate.setText(addedClass.getClassDate());
+        classInstructor.setEnabled(false);
+        classInstructor.setText(addedClass.getInstructor());
+
+        ImageButton classEditButton = addedView.findViewById(R.id.edit_class);
+        classEditButton.setOnClickListener(view1 -> classEditDialog(viewGroup,
+                inflater, addedView, addedClass, context));
+
+        viewGroup.addView(addedView);
     }
 
     /**
@@ -142,7 +143,7 @@ public class ClassElementHandler extends DynamicElementHandler {
      *
      * @see DynamicElementHandler#showEditDialog(String, ViewGroup, LayoutInflater, View, Context, int, int, int) 
      */
-    public void classEditDialog(ViewGroup viewGroup, LayoutInflater inflater,
+    private void classEditDialog(ViewGroup viewGroup, LayoutInflater inflater,
                                 View view, ClassElement editedClass, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogBoxTheme);
         builder.setTitle("Edit Class");
@@ -162,7 +163,7 @@ public class ClassElementHandler extends DynamicElementHandler {
 
         int index = classNames.indexOf(className.getText().toString());
 
-        //set editing window to have same inputs as the selected view
+        // set editing window to have same inputs as the selected view
         classNameEdit.setText(className.getText());
         classInstructorEdit.setText(classInstructor.getText());
 
@@ -179,7 +180,7 @@ public class ClassElementHandler extends DynamicElementHandler {
         builder.setPositiveButton("OK", (dialog, which) -> {
             String nameText, dateText, instructorText;
 
-            //add empty check for date/time
+            // add empty check for date/time
             if (nonEmptyDialog(classNameEdit, classInstructorEdit)) {
                 nameText = classNameEdit.getText().toString();
                 dateText = getClassDateFromDialog(dayCheckEdit, timePickerEdit);
@@ -217,7 +218,7 @@ public class ClassElementHandler extends DynamicElementHandler {
      *
      * @return a string version of the class days and time
      */
-    public String getClassDateFromDialog(RadioGroup radioGroup, TimePicker timePicker) {
+    private String getClassDateFromDialog(RadioGroup radioGroup, TimePicker timePicker) {
         String time;
         String hour = (timePicker.getHour() > 12) ?
                 String.valueOf(timePicker.getHour() - 12) : String.valueOf(timePicker.getHour());

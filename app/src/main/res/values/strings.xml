@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">2340Project1</string>
+    <string name="app_name">College Scheduler</string>
     <string name="title_class">Classes</string>
     <string name="class_name">Course Name</string>
     <string name="class_instructor">Instructor</string>
@@ -16,9 +16,10 @@
     <string name="add_assignment">Add Assignment</string>
     <string name="add_exam">Add Exam</string>
     <string name="pick_date">Pick Date</string>
-    <string name="assignment_title">Assignment title...</string>
-    <string name="assignment_class">Course name...</string>
-    <string name="exam_title">Exam title...</string>
-    <string name="exam_location">Exam location...</string>
-    <string name="exam_course">Course name...</string>
+    <string name="assignment_title">Assignment title…</string>
+    <string name="assignment_class">Course name…</string>
+    <string name="exam_title">Exam title…</string>
+    <string name="exam_location">Exam location…</string>
+    <string name="exam_course">Course name…</string>
+    <string name="add_class">Add Class</string>
 </resources>
