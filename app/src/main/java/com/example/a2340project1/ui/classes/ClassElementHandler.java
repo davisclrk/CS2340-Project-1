@@ -206,7 +206,17 @@ public class ClassElementHandler extends DynamicElementHandler {
             }
 
         });
-        builder.setNeutralButton("Delete", (dialog, which) -> viewGroup.removeView(view));
+        builder.setNeutralButton("Delete", (dialog, which) -> {
+            int deleteIndex = 0;
+            for (int i=0;i<classNames.size();i++) {
+                if (classNames.get(i).equals(className.getText().toString())) {
+                    deleteIndex = i;
+                    break;
+                }
+            }
+            classNames.remove(deleteIndex);
+            viewGroup.removeView(view);
+        });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         // create and show the alert dialog
