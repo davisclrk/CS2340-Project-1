@@ -22,6 +22,7 @@ import com.example.a2340project1.ui.DynamicElementHandler;
 import com.example.a2340project1.ui.classes.ClassElementHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 
@@ -176,9 +177,6 @@ public class AgendaElementHandler extends DynamicElementHandler {
         View customLayout = inflater.inflate(R.layout.assignment_popup_dialog, null);
         builder.setView(customLayout);
 
-        // COMMENT this is never used
-        View editedView = inflater.inflate(editedAssignment.getMainResource(), null, false);
-
         EditText assignmentNameEdit = customLayout.findViewById(R.id.add_assignment_name);
         Spinner assignmentClassEdit = customLayout.findViewById(R.id.add_assignment_class_spinner);
         EditText assignmentDateEdit = customLayout.findViewById(R.id.add_assignment_date);
@@ -201,7 +199,7 @@ public class AgendaElementHandler extends DynamicElementHandler {
         EditText assignmentDate = view.findViewById(R.id.assignment_deadline);
 
         //set editing window to have same inputs as the selected view
-        assignmentNameEdit.setText(assignmentName.getText());
+        assignmentNameEdit.setText(editedAssignment.getAgendaName());
         assignmentClassEdit.setSelection(editedAssignment.getClassIndex());
         assignmentDateEdit.setText(editedAssignment.getAgendaDate());
 
@@ -214,17 +212,20 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
             if (nonEmptyDialog(assignmentNameEdit)) {
                 nameText = assignmentNameEdit.getText().toString();
-                dateText = getAssignmentDeadlineFromDialog(timePickerEdit);
+                if (!editedAssignment.getAgendaDate().equals(assignmentDateEdit.getText().toString())) dateText = getAssignmentDeadlineFromDialog(timePickerEdit);
+                else dateText = editedAssignment.getAgendaDate();
                 classText = assignmentClassEdit.getSelectedItem().toString();
 
                 assignmentName.setText(nameText);
                 assignmentDate.setText(dateText);
                 assignmentClass.setText(classText);
 
+                int month = parseDateString(dateText, 0), day = parseDateString(dateText, 1), year = parseDateString(dateText, 2);
+
                 AgendaElements.remove(editedAssignment);
 
-                int index = calculateViewPosition(displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute());
-                AgendaElements.add(index, new AssignmentElement(R.layout.assignment_grid, assignmentName.getText().toString(), assignmentClass.getText().toString(), assignmentDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedAssignment.getClassIndex()));
+                int index = calculateViewPosition(month, day, year, timePickerEdit.getHour(), timePickerEdit.getMinute());
+                AgendaElements.add(index, new AssignmentElement(R.layout.assignment_grid, assignmentName.getText().toString(), assignmentClass.getText().toString(), assignmentDate.getText().toString(), month, day, year, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedAssignment.getClassIndex()));
 
                 if (sortByClass) agendaSortByClass(viewGroup, inflater, listener, context);
                 else agendaSortByDate(viewGroup, inflater, listener, context);
@@ -366,15 +367,12 @@ public class AgendaElementHandler extends DynamicElementHandler {
      */
     private void examEditDialog(ViewGroup viewGroup, LayoutInflater inflater, DatePickerDialog.OnDateSetListener listener,
                                 View view, ExamElement editedExam, Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogBoxTheme);
         builder.setTitle("Edit Exam");
 
         // set the custom layout
         View customLayout = inflater.inflate(R.layout.exam_popup_dialog, null);
         builder.setView(customLayout);
-
-        // COMMENT this is never used
-        View editedView = inflater.inflate(editedExam.getMainResource(), null, false);
 
         EditText examNameEdit = customLayout.findViewById(R.id.add_exam_name);
         Spinner examClassEdit = customLayout.findViewById(R.id.add_exam_class_spinner);
@@ -400,10 +398,10 @@ public class AgendaElementHandler extends DynamicElementHandler {
         EditText examLocation = view.findViewById(R.id.exam_location);
 
         //set editing window to have same inputs as the selected view
-        examNameEdit.setText(examName.getText());
+        examNameEdit.setText(editedExam.getAgendaName());
         examClassEdit.setSelection(editedExam.getClassIndex());
         examDateEdit.setText(editedExam.getAgendaDate());
-        examLocationEdit.setText(examLocation.getText());
+        examLocationEdit.setText(editedExam.getLocation());
 
         timePickerEdit.setHour(editedExam.getAgendaHour());
         timePickerEdit.setMinute(editedExam.getAgendaMinute());
@@ -413,7 +411,8 @@ public class AgendaElementHandler extends DynamicElementHandler {
 
             if (nonEmptyDialog(examNameEdit)) {
                 nameText = examNameEdit.getText().toString();
-                dateText = getAssignmentDeadlineFromDialog(timePickerEdit);
+                if (!editedExam.getAgendaDate().equals(examDateEdit.getText().toString())) dateText = getAssignmentDeadlineFromDialog(timePickerEdit);
+                else dateText = editedExam.getAgendaDate();
                 classText = examClassEdit.getSelectedItem().toString();
                 locationText = examLocationEdit.getText().toString();
 
@@ -422,10 +421,15 @@ public class AgendaElementHandler extends DynamicElementHandler {
                 examClass.setText(classText);
                 examLocation.setText(locationText);
 
+                int month = parseDateString(dateText, 0), day = parseDateString(dateText, 1), year = parseDateString(dateText, 2);
+
                 AgendaElements.remove(editedExam);
 
-                int index = calculateViewPosition(displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute());
-                AgendaElements.add(index, new ExamElement(R.layout.exam_grid, examName.getText().toString(), examClass.getText().toString(), examDate.getText().toString(), displayMonth, displayDay, displayYear, timePickerEdit.getHour(), timePickerEdit.getMinute(), editedExam.getClassIndex(), examLocation.getText().toString()));
+                int index = calculateViewPosition(month, day, year, timePickerEdit.getHour(), timePickerEdit.getMinute());
+                AgendaElements.add(index, new ExamElement(R.layout.exam_grid, examName.getText().toString(),
+                        examClass.getText().toString(), examDate.getText().toString(), month, day, year,
+                        timePickerEdit.getHour(), timePickerEdit.getMinute(), editedExam.getClassIndex(),
+                        examLocation.getText().toString()));
 
                 if (sortByClass) agendaSortByClass(viewGroup, inflater, listener, context);
                 else agendaSortByDate(viewGroup, inflater, listener, context);
@@ -657,11 +661,25 @@ public class AgendaElementHandler extends DynamicElementHandler {
         return index;
     }
 
+    /**
+     * Parses a string date into an integer for either the month, day, or year.
+     *
+     * @param date the date to parse
+     * @param which determines which time unit to return
+     * @return either the month, day, or year as an int
+     */
+    private int parseDateString(String date, int which) {
+        String[] dates = date.split("/");
+        if (which == 0) return Integer.parseInt(dates[0]);
+        else if (which == 1) return Integer.parseInt(dates[1]);
+        else return Integer.parseInt(dates[2].substring(0,4));
+    }
+
     public ArrayList<AgendaElement> getAgendaElements() {
         return AgendaElements;
     }
 
-    public LayoutInflater getInflater() { // COMMENT do we need this method?
+    public LayoutInflater getInflater() {
         return inflater;
     }
 
